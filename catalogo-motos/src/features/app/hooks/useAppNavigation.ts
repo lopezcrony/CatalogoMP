@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Motorcycle } from '../../../types';
 
 export type AppMode = 'showroom' | 'vdp' | 'admin-login' | 'admin';
-export type AdminTab = 'general' | 'inventario' | 'homologacion' | 'reservas' | 'ajustes';
+export type AdminTab = 'general' | 'inventario' | 'homologacion' | 'ajustes';
 
 export const useAppNavigation = (motorcycles: Motorcycle[]) => {
   const [currentMode, setCurrentMode] = useState<AppMode>('showroom');

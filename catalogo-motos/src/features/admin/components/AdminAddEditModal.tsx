@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Motorcycle, BikeStatus, ColorVariant } from '../../../types';
+import { Icon } from '../../../components/Icon';
 
 interface AdminAddEditModalProps {
   isOpen: boolean;
@@ -43,7 +44,6 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
 
   // Prices
   const [priceRetailCop, setPriceRetailCop] = useState(initialBike?.priceRawCop || 45000000);
-  const [priceReserveCop, setPriceReserveCop] = useState(2000000);
   const [priceRegistrationCop, setPriceRegistrationCop] = useState(1300000);
 
   // Photos
@@ -64,7 +64,7 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
   const [variants, setVariants] = useState<ColorVariant[]>(
     initialBike?.colors || [
       {
-        id: 'var-1',
+        id: '1',
         name: 'Cyan Storm (Azul / Gris Nardo)',
         code: 'CS-0924',
         stock: 4,
@@ -75,7 +75,7 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
         secondaryHex: '#64748b',
       },
       {
-        id: 'var-2',
+        id: '2',
         name: 'Tech Black (Negro Mate Satinado)',
         code: 'TB-0118',
         stock: 1,
@@ -105,7 +105,6 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
     setBrakes('Doble disco delantero de 298 mm con pinzas radiales y ABS Cornering');
     setSuspension('Horquilla telescópica invertida de 130 mm de recorrido');
     setPriceRetailCop(49900000);
-    setPriceReserveCop(2000000);
     setPriceRegistrationCop(1300000);
     setTags([
       'Quickshifter Bidireccional A&S',
@@ -147,7 +146,7 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
           ? 'En Revisión'
           : 'Agotada',
       priceRawCop: priceRetailCop,
-      priceDocsCop: priceRetailCop + priceRegistrationCop + priceReserveCop,
+      priceDocsCop: priceRetailCop + priceRegistrationCop,
       monthlyFinanceCop: Math.round(priceRetailCop / 48),
       chassis: 'Estructura Liviana de Acero',
       power,
@@ -171,34 +170,34 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-[#060e20]/80 backdrop-blur-md overflow-y-auto font-sans">
-      <div className="relative w-full max-w-5xl my-auto bg-[#131b2e] border border-[#2d3449] rounded-2xl shadow-2xl flex flex-col overflow-hidden max-h-[92vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-surface-container-lowest/80 backdrop-blur-md overflow-y-auto font-sans">
+      <div className="relative w-full max-w-5xl my-auto bg-surface-container-low border border-outline-variant rounded-2xl shadow-2xl flex flex-col overflow-hidden max-h-[92vh]">
         {/* Glow Ribbon */}
-        <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-28 bg-[#0ea5e9]/20 blur-3xl pointer-events-none"></div>
+        <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-28 bg-primary/20 blur-3xl pointer-events-none"></div>
 
         {/* 1. Modal Header */}
-        <div className="px-8 py-5 bg-[#171f33] border-b border-[#222a3d] flex items-center justify-between relative z-10 shrink-0">
+        <div className="px-8 py-5 bg-surface-container border-b border-surface-container-high flex items-center justify-between relative z-10 shrink-0">
           <div className="flex items-center gap-4">
-            <div className="w-10 h-10 rounded-xl bg-[#222a3d] flex items-center justify-center text-[#89ceff] shadow-sm border border-[#2d3449]">
-              <span className="material-symbols-outlined text-2xl">two_wheeler</span>
+            <div className="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-primary shadow-sm border border-outline-variant">
+              <Icon name="two_wheeler" size={24} />
             </div>
             <div className="flex flex-col">
               <div className="flex items-center gap-3">
-                <h2 className="font-headline-md text-headline-md text-[#dae2fd] tracking-tight">
+                <h2 className="font-headline-md text-headline-md text-on-surface tracking-tight">
                   {initialBike ? `Editar Modelo: ${initialBike.name}` : 'Agregar Nueva Moto al Catálogo'}
                 </h2>
                 <span
                   className={`px-2.5 py-0.5 rounded-full font-label-sm text-label-sm flex items-center gap-1.5 shadow-sm border ${
                     status === 'disponible'
-                      ? 'bg-[#003824] text-[#4edea3] border-[#4edea3]/30'
+                      ? 'bg-tertiary-container text-tertiary border-tertiary/30'
                       : status === 'espera'
-                      ? 'bg-[#002a78] text-[#b4c5ff] border-[#b4c5ff]/30'
-                      : 'bg-[#222a3d] text-[#bec8d2] border-[#2d3449]'
+                      ? 'bg-primary-container text-primary border-primary/30'
+                      : 'bg-surface-container-high text-on-surface-variant border-outline-variant'
                   }`}
                 >
                   <span
                     className={`w-1.5 h-1.5 rounded-full ${
-                      status === 'disponible' ? 'bg-[#4edea3]' : 'bg-[#89ceff]'
+                      status === 'disponible' ? 'bg-tertiary' : 'bg-primary'
                     }`}
                   ></span>
                   <span>
@@ -210,7 +209,7 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
                   </span>
                 </span>
               </div>
-              <span className="font-body-sm text-body-sm text-[#bec8d2]">
+              <span className="font-body-sm text-body-sm text-on-surface-variant">
                 Configure especificaciones mecánicas, multimedia y reglas comerciales del modelo.
               </span>
             </div>
@@ -220,37 +219,37 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
             <button
               type="button"
               onClick={handleLoadPreset}
-              className="px-3 py-1.5 rounded-lg bg-[#222a3d] hover:bg-[#31394d] border border-[#3e4850] text-[#89ceff] font-label-sm text-label-sm flex items-center gap-1.5 transition-colors cursor-pointer"
+              className="px-3 py-1.5 rounded-lg bg-surface-container-high hover:bg-surface-container-highest border border-outline text-primary font-label-sm text-label-sm flex items-center gap-1.5 transition-colors cursor-pointer"
               title="Cargar plantilla de prueba Yamaha MT-07"
             >
-              <span className="material-symbols-outlined text-base">auto_fix_high</span>
+              <Icon name="auto_fix_high" size={16} />
               <span>Cargar Preset MT-07</span>
             </button>
             <button
               type="button"
               onClick={onClose}
-              className="w-9 h-9 rounded-lg bg-[#222a3d] hover:bg-[#31394d] border border-[#3e4850] text-[#dae2fd] flex items-center justify-center transition-colors cursor-pointer"
+              className="w-9 h-9 rounded-lg bg-surface-container-high hover:bg-surface-container-highest border border-outline text-on-surface flex items-center justify-center transition-colors cursor-pointer"
             >
-              <span className="material-symbols-outlined text-lg">close</span>
+              <Icon name="close" size={18} />
             </button>
           </div>
         </div>
 
         {/* 2. Navigation Tabs Bar */}
-        <div className="px-8 bg-[#060e20] border-b border-[#171f33] flex items-center gap-2 shrink-0 overflow-x-auto">
+        <div className="px-8 bg-surface-container-lowest border-b border-surface-container flex items-center gap-2 shrink-0 overflow-x-auto">
           <button
             type="button"
             onClick={() => setActiveTab('general')}
             className={`px-4 py-3.5 font-label-lg text-label-lg flex items-center gap-2 transition-colors cursor-pointer relative ${
               activeTab === 'general'
-                ? 'text-[#89ceff] bg-[#131b2e]'
-                : 'text-[#bec8d2] hover:text-[#dae2fd]'
+                ? 'text-primary bg-surface-container-low'
+                : 'text-on-surface-variant hover:text-on-surface'
             }`}
           >
-            <span className="material-symbols-outlined text-lg">tune</span>
+            <Icon name="tune" size={18} />
             <span>1. Datos Generales &amp; Técnicos</span>
             {activeTab === 'general' && (
-              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#0ea5e9]"></span>
+              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"></span>
             )}
           </button>
 
@@ -259,17 +258,17 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
             onClick={() => setActiveTab('gallery')}
             className={`px-4 py-3.5 font-label-lg text-label-lg flex items-center gap-2 transition-colors cursor-pointer relative ${
               activeTab === 'gallery'
-                ? 'text-[#89ceff] bg-[#131b2e]'
-                : 'text-[#bec8d2] hover:text-[#dae2fd]'
+                ? 'text-primary bg-surface-container-low'
+                : 'text-on-surface-variant hover:text-on-surface'
             }`}
           >
-            <span className="material-symbols-outlined text-lg">photo_library</span>
+            <Icon name="photo_library" size={18} />
             <span>2. Galería de Fotos</span>
-            <span className="bg-[#222a3d] px-2 py-0.5 rounded-full font-label-sm text-label-sm text-[#89ceff]">
+            <span className="bg-surface-container-high px-2 py-0.5 rounded-full font-label-sm text-label-sm text-primary">
               {slides.length}/6
             </span>
             {activeTab === 'gallery' && (
-              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#0ea5e9]"></span>
+              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"></span>
             )}
           </button>
 
@@ -278,15 +277,15 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
             onClick={() => setActiveTab('variants')}
             className={`px-4 py-3.5 font-label-lg text-label-lg flex items-center gap-2 transition-colors cursor-pointer relative ${
               activeTab === 'variants'
-                ? 'text-[#89ceff] bg-[#131b2e]'
-                : 'text-[#bec8d2] hover:text-[#dae2fd]'
+                ? 'text-primary bg-surface-container-low'
+                : 'text-on-surface-variant hover:text-on-surface'
             }`}
           >
-            <span className="material-symbols-outlined text-lg">palette</span>
+            <Icon name="palette" size={18} />
             <span>3. Variantes de Color &amp; Stock</span>
-            <span className="w-2 h-2 rounded-full bg-[#4edea3]"></span>
+            <span className="w-2 h-2 rounded-full bg-tertiary"></span>
             {activeTab === 'variants' && (
-              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#0ea5e9]"></span>
+              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"></span>
             )}
           </button>
 
@@ -295,14 +294,14 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
             onClick={() => setActiveTab('pricing')}
             className={`px-4 py-3.5 font-label-lg text-label-lg flex items-center gap-2 transition-colors cursor-pointer relative ${
               activeTab === 'pricing'
-                ? 'text-[#89ceff] bg-[#131b2e]'
-                : 'text-[#bec8d2] hover:text-[#dae2fd]'
+                ? 'text-primary bg-surface-container-low'
+                : 'text-on-surface-variant hover:text-on-surface'
             }`}
           >
-            <span className="material-symbols-outlined text-lg">receipt_long</span>
+            <Icon name="receipt_long" size={18} />
             <span>4. Precios &amp; Documentación</span>
             {activeTab === 'pricing' && (
-              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#0ea5e9]"></span>
+              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"></span>
             )}
           </button>
         </div>
@@ -313,12 +312,12 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
           {activeTab === 'general' && (
             <div className="flex flex-col gap-8">
               {/* Master Status Strip */}
-              <div className="bg-[#171f33] border border-[#222a3d] p-4 rounded-xl flex flex-col gap-3">
+              <div className="bg-surface-container border border-surface-container-high p-4 rounded-xl flex flex-col gap-3">
                 <div className="flex items-center justify-between">
-                  <span className="font-label-sm text-label-sm text-[#bec8d2] uppercase tracking-wider">
+                  <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">
                     Estado de Publicación en Plataforma
                   </span>
-                  <span className="font-body-sm text-body-sm text-[#88929b]">
+                  <span className="font-body-sm text-body-sm text-outline">
                     Determina visibilidad en el portal público y red de concesionarios
                   </span>
                 </div>
@@ -328,14 +327,14 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
                     onClick={() => setStatus('disponible')}
                     className={`p-3 rounded-lg border flex items-center gap-3 transition-all cursor-pointer ${
                       status === 'disponible'
-                        ? 'bg-[#003824]/40 border-[#4edea3] text-[#dae2fd]'
-                        : 'bg-[#222a3d] border-transparent text-[#bec8d2]'
+                        ? 'bg-tertiary-container/40 border-tertiary text-on-surface'
+                        : 'bg-surface-container-high border-transparent text-on-surface-variant'
                     }`}
                   >
-                    <div className="w-3 h-3 rounded-full bg-[#4edea3] shadow-[0_0_8px_currentColor]"></div>
+                    <div className="w-3 h-3 rounded-full bg-tertiary shadow-[0_0_8px_currentColor]"></div>
                     <div className="flex flex-col text-left">
                       <span className="font-label-md text-label-md">Disponible</span>
-                      <span className="font-body-sm text-body-sm text-[#4edea3]">Vitrina y reserva</span>
+                      <span className="font-body-sm text-body-sm text-tertiary">Vitrina y cotización</span>
                     </div>
                   </button>
 
@@ -344,14 +343,14 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
                     onClick={() => setStatus('agotada')}
                     className={`p-3 rounded-lg border flex items-center gap-3 transition-all cursor-pointer ${
                       status === 'agotada'
-                        ? 'bg-[#2d3449] border-[#88929b] text-[#dae2fd]'
-                        : 'bg-[#222a3d] border-transparent text-[#bec8d2]'
+                        ? 'bg-outline-variant border-outline text-on-surface'
+                        : 'bg-surface-container-high border-transparent text-on-surface-variant'
                     }`}
                   >
-                    <div className="w-3 h-3 rounded-full bg-[#88929b]"></div>
+                    <div className="w-3 h-3 rounded-full bg-outline"></div>
                     <div className="flex flex-col text-left">
                       <span className="font-label-md text-label-md">Agotada Visible</span>
-                      <span className="font-body-sm text-body-sm text-[#bec8d2]">Solo catálogo</span>
+                      <span className="font-body-sm text-body-sm text-on-surface-variant">Solo catálogo</span>
                     </div>
                   </button>
 
@@ -360,14 +359,14 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
                     onClick={() => setStatus('espera')}
                     className={`p-3 rounded-lg border flex items-center gap-3 transition-all cursor-pointer ${
                       status === 'espera'
-                        ? 'bg-[#002a78]/40 border-[#b4c5ff] text-[#dae2fd]'
-                        : 'bg-[#222a3d] border-transparent text-[#bec8d2]'
+                        ? 'bg-primary-container/40 border-primary text-on-surface'
+                        : 'bg-surface-container-high border-transparent text-on-surface-variant'
                     }`}
                   >
-                    <div className="w-3 h-3 rounded-full bg-[#b4c5ff] shadow-[0_0_8px_currentColor]"></div>
+                    <div className="w-3 h-3 rounded-full bg-primary shadow-[0_0_8px_currentColor]"></div>
                     <div className="flex flex-col text-left">
                       <span className="font-label-md text-label-md">En Preventa</span>
-                      <span className="font-body-sm text-body-sm text-[#b4c5ff]">Cupos anticipados</span>
+                      <span className="font-body-sm text-body-sm text-primary">Cupos anticipados</span>
                     </div>
                   </button>
 
@@ -376,14 +375,14 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
                     onClick={() => setStatus('revision')}
                     className={`p-3 rounded-lg border flex items-center gap-3 transition-all cursor-pointer ${
                       status === 'revision'
-                        ? 'bg-[#0ea5e9]/20 border-[#0ea5e9] text-[#dae2fd]'
-                        : 'bg-[#222a3d] border-transparent text-[#bec8d2]'
+                        ? 'bg-primary/20 border-primary text-on-surface'
+                        : 'bg-surface-container-high border-transparent text-on-surface-variant'
                     }`}
                   >
-                    <div className="w-3 h-3 rounded-full bg-[#89ceff] animate-pulse"></div>
+                    <div className="w-3 h-3 rounded-full bg-primary animate-pulse"></div>
                     <div className="flex flex-col text-left">
                       <span className="font-label-md text-label-md">En Revisión</span>
-                      <span className="font-body-sm text-body-sm text-[#89ceff]">No indexado</span>
+                      <span className="font-body-sm text-body-sm text-primary">No indexado</span>
                     </div>
                   </button>
                 </div>
@@ -392,16 +391,16 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
               {/* Identification */}
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[#89ceff] text-xl">badge</span>
-                  <h3 className="font-headline-sm text-headline-sm text-[#dae2fd]">Identificación del Vehículo</h3>
+                  <Icon name="badge" size={20} className="text-primary" />
+                  <h3 className="font-headline-sm text-headline-sm text-on-surface">Identificación del Vehículo</h3>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
                   <div className="md:col-span-4 flex flex-col gap-1.5">
-                    <label className="font-label-md text-label-md text-[#bec8d2]">Marca Fabricante *</label>
+                    <label className="font-label-md text-label-md text-on-surface-variant">Marca Fabricante *</label>
                     <select
                       value={brand}
                       onChange={(e) => setBrand(e.target.value)}
-                      className="w-full h-11 bg-[#060e20] text-[#dae2fd] border border-[#2d3449] px-3.5 rounded-lg focus:border-[#0ea5e9] focus:outline-none"
+                      className="w-full h-11 bg-surface-container-lowest text-on-surface border border-outline-variant px-3.5 rounded-lg focus:border-primary focus:outline-none"
                     >
                       <option value="Yamaha">Yamaha</option>
                       <option value="Kawasaki">Kawasaki</option>
@@ -412,21 +411,21 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
                     </select>
                   </div>
                   <div className="md:col-span-5 flex flex-col gap-1.5">
-                    <label className="font-label-md text-label-md text-[#bec8d2]">Nombre de Modelo &amp; Edición *</label>
+                    <label className="font-label-md text-label-md text-on-surface-variant">Nombre de Modelo &amp; Edición *</label>
                     <input
                       type="text"
                       value={modelName}
                       onChange={(e) => setModelName(e.target.value)}
                       placeholder="Ej. MT-07 Pure / SP Carbon Edition"
-                      className="w-full h-11 bg-[#060e20] text-[#dae2fd] border border-[#2d3449] px-3.5 rounded-lg focus:border-[#0ea5e9] focus:outline-none"
+                      className="w-full h-11 bg-surface-container-lowest text-on-surface border border-outline-variant px-3.5 rounded-lg focus:border-primary focus:outline-none"
                     />
                   </div>
                   <div className="md:col-span-3 flex flex-col gap-1.5">
-                    <label className="font-label-md text-label-md text-[#bec8d2]">Año de Fabricación *</label>
+                    <label className="font-label-md text-label-md text-on-surface-variant">Año de Fabricación *</label>
                     <select
                       value={year}
                       onChange={(e) => setYear(Number(e.target.value))}
-                      className="w-full h-11 bg-[#060e20] text-[#dae2fd] border border-[#2d3449] px-3.5 rounded-lg focus:border-[#0ea5e9] focus:outline-none"
+                      className="w-full h-11 bg-surface-container-lowest text-on-surface border border-outline-variant px-3.5 rounded-lg focus:border-primary focus:outline-none"
                     >
                       <option value={2025}>2025 (Nuevo Modelo)</option>
                       <option value={2024}>2024 (En Curso)</option>
@@ -440,69 +439,69 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
               <div className="flex flex-col gap-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-[#89ceff] text-xl">speed</span>
-                    <h3 className="font-headline-sm text-headline-sm text-[#dae2fd]">Ficha Técnica &amp; Desempeño</h3>
+                    <Icon name="speed" size={20} className="text-primary" />
+                    <h3 className="font-headline-sm text-headline-sm text-on-surface">Ficha Técnica &amp; Desempeño</h3>
                   </div>
-                  <span className="font-label-sm text-label-sm text-[#88929b] uppercase tracking-wider">
+                  <span className="font-label-sm text-label-sm text-outline uppercase tracking-wider">
                     Unidades Métricas Certificadas
                   </span>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                  <div className="bg-[#171f33] border border-[#222a3d] p-4 rounded-xl flex flex-col gap-2">
-                    <span className="font-label-sm text-label-sm text-[#bec8d2] uppercase">Cilindraje</span>
+                  <div className="bg-surface-container border border-surface-container-high p-4 rounded-xl flex flex-col gap-2">
+                    <span className="font-label-sm text-label-sm text-on-surface-variant uppercase">Cilindraje</span>
                     <input
                       type="text"
                       value={cc}
                       onChange={(e) => setCc(e.target.value)}
-                      className="w-full h-11 bg-[#060e20] border border-[#2d3449] text-[#dae2fd] font-spec-data text-spec-data px-3 rounded-lg focus:border-[#0ea5e9] focus:outline-none"
+                      className="w-full h-11 bg-surface-container-lowest border border-outline-variant text-on-surface font-spec-data text-spec-data px-3 rounded-lg focus:border-primary focus:outline-none"
                     />
                   </div>
-                  <div className="bg-[#171f33] border border-[#222a3d] p-4 rounded-xl flex flex-col gap-2">
-                    <span className="font-label-sm text-label-sm text-[#bec8d2] uppercase">Potencia Máxima</span>
+                  <div className="bg-surface-container border border-surface-container-high p-4 rounded-xl flex flex-col gap-2">
+                    <span className="font-label-sm text-label-sm text-on-surface-variant uppercase">Potencia Máxima</span>
                     <input
                       type="text"
                       value={power}
                       onChange={(e) => setPower(e.target.value)}
-                      className="w-full h-11 bg-[#060e20] border border-[#2d3449] text-[#dae2fd] font-spec-data text-spec-data px-3 rounded-lg focus:border-[#0ea5e9] focus:outline-none"
+                      className="w-full h-11 bg-surface-container-lowest border border-outline-variant text-on-surface font-spec-data text-spec-data px-3 rounded-lg focus:border-primary focus:outline-none"
                     />
                   </div>
-                  <div className="bg-[#171f33] border border-[#222a3d] p-4 rounded-xl flex flex-col gap-2">
-                    <span className="font-label-sm text-label-sm text-[#bec8d2] uppercase">Peso en Seco</span>
+                  <div className="bg-surface-container border border-surface-container-high p-4 rounded-xl flex flex-col gap-2">
+                    <span className="font-label-sm text-label-sm text-on-surface-variant uppercase">Peso en Seco</span>
                     <input
                       type="text"
                       value={weight}
                       onChange={(e) => setWeight(e.target.value)}
-                      className="w-full h-11 bg-[#060e20] border border-[#2d3449] text-[#dae2fd] font-spec-data text-spec-data px-3 rounded-lg focus:border-[#0ea5e9] focus:outline-none"
+                      className="w-full h-11 bg-surface-container-lowest border border-outline-variant text-on-surface font-spec-data text-spec-data px-3 rounded-lg focus:border-primary focus:outline-none"
                     />
                   </div>
-                  <div className="bg-[#171f33] border border-[#222a3d] p-4 rounded-xl flex flex-col gap-2">
-                    <span className="font-label-sm text-label-sm text-[#bec8d2] uppercase">Torque / Par Motor</span>
+                  <div className="bg-surface-container border border-surface-container-high p-4 rounded-xl flex flex-col gap-2">
+                    <span className="font-label-sm text-label-sm text-on-surface-variant uppercase">Torque / Par Motor</span>
                     <input
                       type="text"
                       value={torque}
                       onChange={(e) => setTorque(e.target.value)}
-                      className="w-full h-11 bg-[#060e20] border border-[#2d3449] text-[#dae2fd] font-spec-data text-spec-data px-3 rounded-lg focus:border-[#0ea5e9] focus:outline-none"
+                      className="w-full h-11 bg-surface-container-lowest border border-outline-variant text-on-surface font-spec-data text-spec-data px-3 rounded-lg focus:border-primary focus:outline-none"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="flex flex-col gap-1.5">
-                    <label className="font-label-md text-label-md text-[#bec8d2]">Sistema de Frenos &amp; Pinzas</label>
+                    <label className="font-label-md text-label-md text-on-surface-variant">Sistema de Frenos &amp; Pinzas</label>
                     <input
                       type="text"
                       value={brakes}
                       onChange={(e) => setBrakes(e.target.value)}
-                      className="w-full h-11 bg-[#060e20] border border-[#2d3449] text-[#dae2fd] px-3.5 rounded-lg focus:border-[#0ea5e9] focus:outline-none"
+                      className="w-full h-11 bg-surface-container-lowest border border-outline-variant text-on-surface px-3.5 rounded-lg focus:border-primary focus:outline-none"
                     />
                   </div>
                   <div className="flex flex-col gap-1.5">
-                    <label className="font-label-md text-label-md text-[#bec8d2]">Configuración de Suspensión</label>
+                    <label className="font-label-md text-label-md text-on-surface-variant">Configuración de Suspensión</label>
                     <input
                       type="text"
                       value={suspension}
                       onChange={(e) => setSuspension(e.target.value)}
-                      className="w-full h-11 bg-[#060e20] border border-[#2d3449] text-[#dae2fd] px-3.5 rounded-lg focus:border-[#0ea5e9] focus:outline-none"
+                      className="w-full h-11 bg-surface-container-lowest border border-outline-variant text-on-surface px-3.5 rounded-lg focus:border-primary focus:outline-none"
                     />
                   </div>
                 </div>
@@ -512,24 +511,24 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
               <div className="flex flex-col gap-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-[#89ceff] text-xl">label</span>
-                    <h3 className="font-headline-sm text-headline-sm text-[#dae2fd]">Equipamiento &amp; Tags Técnicos</h3>
+                    <Icon name="label" size={20} className="text-primary" />
+                    <h3 className="font-headline-sm text-headline-sm text-on-surface">Equipamiento &amp; Tags Técnicos</h3>
                   </div>
-                  <span className="font-body-sm text-body-sm text-[#88929b]">Presione Enter para añadir tags</span>
+                  <span className="font-body-sm text-body-sm text-outline">Presione Enter para añadir tags</span>
                 </div>
 
-                <div className="bg-[#060e20] border border-[#2d3449] p-3 rounded-xl flex flex-wrap items-center gap-2 min-h-14">
+                <div className="bg-surface-container-lowest border border-outline-variant p-3 rounded-xl flex flex-wrap items-center gap-2 min-h-14">
                   {tags.map((tag, idx) => (
                     <span
                       key={idx}
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#222a3d] text-[#dae2fd] font-label-md text-label-md border border-[#3e4850]"
+                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-surface-container-high text-on-surface font-label-md text-label-md border border-outline"
                     >
-                      <span className="material-symbols-outlined text-base text-[#89ceff]">check</span>
+                      <Icon name="check" size={16} className="text-primary" />
                       <span>{tag}</span>
                       <button
                         type="button"
                         onClick={() => handleRemoveTag(idx)}
-                        className="text-[#88929b] hover:text-[#ffb4ab] ml-1 cursor-pointer"
+                        className="text-outline hover:text-error ml-1 cursor-pointer"
                       >
                         ✕
                       </button>
@@ -546,12 +545,12 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
                       }
                     }}
                     placeholder="+ Agregar característica..."
-                    className="bg-transparent text-[#dae2fd] font-body-md text-body-md px-2 py-1 focus:outline-none flex-1 min-w-40 placeholder:text-[#88929b]/50"
+                    className="bg-transparent text-on-surface font-body-md text-body-md px-2 py-1 focus:outline-none flex-1 min-w-40 placeholder:text-outline/50"
                   />
                 </div>
 
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="font-label-sm text-label-sm text-[#88929b]">Sugeridos:</span>
+                  <span className="font-label-sm text-label-sm text-outline">Sugeridos:</span>
                   {[
                     'Embrague Antirrebote A&S',
                     'Iluminación Full LED',
@@ -563,7 +562,7 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
                       key={sug}
                       type="button"
                       onClick={() => handleAddTag(sug)}
-                      className="text-[#89ceff] hover:text-[#dae2fd] font-label-sm text-label-sm bg-[#171f33] border border-[#222a3d] px-2 py-0.5 rounded transition-colors cursor-pointer"
+                      className="text-primary hover:text-on-surface font-label-sm text-label-sm bg-surface-container border border-surface-container-high px-2 py-0.5 rounded transition-colors cursor-pointer"
                     >
                       + {sug}
                     </button>
@@ -572,33 +571,33 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
               </div>
 
               {/* Danger Zone */}
-              <div className="bg-[#171f33] border border-[#222a3d] p-5 rounded-xl flex flex-col gap-3">
+              <div className="bg-surface-container border border-surface-container-high p-5 rounded-xl flex flex-col gap-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-[#93000a]/30 text-[#ffb4ab] flex items-center justify-center">
-                      <span className="material-symbols-outlined text-xl">delete_forever</span>
+                    <div className="w-8 h-8 rounded-lg bg-error/30 text-error flex items-center justify-center">
+                      <Icon name="delete_forever" size={20} />
                     </div>
                     <div className="flex flex-col">
-                      <span className="font-label-lg text-label-lg text-[#dae2fd] font-semibold">
+                      <span className="font-label-lg text-label-lg text-on-surface font-semibold">
                         Zona de Gestión Crítica
                       </span>
-                      <span className="font-body-sm text-body-sm text-[#bec8d2]">
-                        La remoción del modelo desactivará automáticamente todas las reservas activas.
+                      <span className="font-body-sm text-body-sm text-on-surface-variant">
+                        La remoción del modelo retirará el modelo de la vitrina pública.
                       </span>
                     </div>
                   </div>
                   <button
                     type="button"
                     onClick={() => setShowDangerBox(!showDangerBox)}
-                    className="px-3.5 py-2 rounded-lg bg-[#93000a]/20 hover:bg-[#93000a]/40 text-[#ffb4ab] border border-[#ffb4ab]/30 font-label-md text-label-md flex items-center gap-1.5 transition-colors cursor-pointer"
+                    className="px-3.5 py-2 rounded-lg bg-error/20 hover:bg-error/40 text-error border border-error/30 font-label-md text-label-md flex items-center gap-1.5 transition-colors cursor-pointer"
                   >
-                    <span className="material-symbols-outlined text-base">warning</span>
+                    <Icon name="warning" size={16} />
                     <span>Eliminar Modelo</span>
                   </button>
                 </div>
                 {showDangerBox && (
-                  <div className="mt-3 p-4 bg-[#060e20] border border-[#93000a]/40 rounded-lg flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <p className="font-body-sm text-body-sm text-[#ffb4ab]">
+                  <div className="mt-3 p-4 bg-surface-container-lowest border border-error/40 rounded-lg flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <p className="font-body-sm text-body-sm text-error">
                       ¿Confirmas eliminar permanentemente esta ficha? Esta acción borrará el historial de precios.
                     </p>
                     <button
@@ -607,7 +606,7 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
                         setShowDangerBox(false);
                         onClose();
                       }}
-                      className="px-3 py-1.5 rounded-lg bg-[#93000a] text-[#ffdad6] font-label-sm text-label-sm font-bold cursor-pointer shrink-0"
+                      className="px-3 py-1.5 rounded-lg bg-error text-on-error-container font-label-sm text-label-sm font-bold cursor-pointer shrink-0"
                     >
                       Confirmar Eliminación
                     </button>
@@ -620,12 +619,12 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
           {/* TAB 2: GALERÍA DE FOTOS */}
           {activeTab === 'gallery' && (
             <div className="flex flex-col gap-6">
-              <div className="flex items-center justify-between bg-[#171f33] border border-[#222a3d] p-4 rounded-xl">
+              <div className="flex items-center justify-between bg-surface-container border border-surface-container-high p-4 rounded-xl">
                 <div>
-                  <h3 className="font-headline-sm text-headline-sm text-[#dae2fd]">
+                  <h3 className="font-headline-sm text-headline-sm text-on-surface">
                     Gestor Avanzado de Activos Visuales
                   </h3>
-                  <p className="font-body-sm text-body-sm text-[#bec8d2]">
+                  <p className="font-body-sm text-body-sm text-on-surface-variant">
                     La primera foto representará la portada en la vitrina pública.
                   </p>
                 </div>
@@ -640,9 +639,9 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
                       setSlides([...slides, newPhoto]);
                     }
                   }}
-                  className="px-4 py-2 bg-[#0ea5e9] text-[#003751] rounded-lg font-label-md text-label-md font-bold flex items-center gap-2 cursor-pointer"
+                  className="px-4 py-2 bg-primary text-on-primary-container rounded-lg font-label-md text-label-md font-bold flex items-center gap-2 cursor-pointer"
                 >
-                  <span className="material-symbols-outlined text-base">upload_file</span>
+                  <Icon name="upload_file" size={16} />
                   <span>Subir Foto Adicional</span>
                 </button>
               </div>
@@ -651,19 +650,19 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
                 {slides.map((slide, idx) => (
                   <div
                     key={idx}
-                    className="bg-[#060e20] border border-[#222a3d] rounded-xl overflow-hidden shadow-lg p-3 flex flex-col gap-3"
+                    className="bg-surface-container-lowest border border-surface-container-high rounded-xl overflow-hidden shadow-lg p-3 flex flex-col gap-3"
                   >
                     <img src={slide.url} alt={slide.title} className="w-full h-44 object-cover rounded-lg" />
                     <div className="flex items-center justify-between">
-                      <span className="font-label-sm text-label-sm text-[#89ceff] font-bold">
+                      <span className="font-label-sm text-label-sm text-primary font-bold">
                         0{idx + 1} • {slide.title}
                       </span>
                       <button
                         type="button"
                         onClick={() => setSlides(slides.filter((_, i) => i !== idx))}
-                        className="p-1 text-[#ffb4ab] hover:text-white"
+                        className="p-1 text-error hover:text-white"
                       >
-                        <span className="material-symbols-outlined text-base">delete</span>
+                        <Icon name="delete" size={16} />
                       </button>
                     </div>
                   </div>
@@ -675,12 +674,12 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
           {/* TAB 3: VARIANTES DE COLOR */}
           {activeTab === 'variants' && (
             <div className="flex flex-col gap-6">
-              <div className="flex items-center justify-between bg-[#171f33] border border-[#222a3d] p-4 rounded-xl">
+              <div className="flex items-center justify-between bg-surface-container border border-surface-container-high p-4 rounded-xl">
                 <div>
-                  <h3 className="font-headline-sm text-headline-sm text-[#dae2fd]">
+                  <h3 className="font-headline-sm text-headline-sm text-on-surface">
                     Colores de Fábrica &amp; Inventario Físico
                   </h3>
-                  <p className="font-body-sm text-body-sm text-[#bec8d2]">
+                  <p className="font-body-sm text-body-sm text-on-surface-variant">
                     Asigne unidades en bodega para cada combinación cromática homologada.
                   </p>
                 </div>
@@ -700,9 +699,9 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
                     };
                     setVariants([...variants, newVar]);
                   }}
-                  className="px-3.5 py-2 bg-[#222a3d] hover:bg-[#31394d] border border-[#3e4850] text-[#89ceff] rounded-lg font-label-md text-label-md flex items-center gap-2 cursor-pointer"
+                  className="px-3.5 py-2 bg-surface-container-high hover:bg-surface-container-highest border border-outline text-primary rounded-lg font-label-md text-label-md flex items-center gap-2 cursor-pointer"
                 >
-                  <span className="material-symbols-outlined text-base">add_circle</span>
+                  <Icon name="add_circle" size={16} />
                   <span>+ Nueva Variante de Color</span>
                 </button>
               </div>
@@ -711,18 +710,18 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
                 {variants.map((v) => (
                   <div
                     key={v.id}
-                    className="bg-[#060e20] border border-[#222a3d] p-4 rounded-xl flex items-center justify-between gap-4"
+                    className="bg-surface-container-lowest border border-surface-container-high p-4 rounded-xl flex items-center justify-between gap-4"
                   >
                     <div className="flex items-center gap-4">
                       <div
                         style={{ backgroundColor: v.colorHex }}
-                        className="w-8 h-8 rounded-full shadow-md ring-2 ring-[#0ea5e9]"
+                        className="w-8 h-8 rounded-full shadow-md ring-2 ring-primary"
                       ></div>
                       <div className="flex flex-col">
-                        <span className="font-label-lg text-label-lg text-[#dae2fd] font-bold">
+                        <span className="font-label-lg text-label-lg text-on-surface font-bold">
                           {v.name}
                         </span>
-                        <span className="font-body-sm text-body-sm text-[#88929b]">
+                        <span className="font-body-sm text-body-sm text-outline">
                           Código OEM: {v.code}
                         </span>
                       </div>
@@ -730,15 +729,15 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
 
                     <div className="flex items-center gap-6">
                       <div className="flex flex-col items-end">
-                        <span className="font-label-sm text-label-sm text-[#bec8d2] uppercase">Stock en Piso</span>
-                        <span className="font-spec-data text-spec-data text-[#4edea3]">{v.stock} unidades</span>
+                        <span className="font-label-sm text-label-sm text-on-surface-variant uppercase">Stock en Piso</span>
+                        <span className="font-spec-data text-spec-data text-tertiary">{v.stock} unidades</span>
                       </div>
                       <button
                         type="button"
                         onClick={() => setVariants(variants.filter((item) => item.id !== v.id))}
-                        className="p-2 rounded-lg bg-[#222a3d] text-[#ffb4ab] hover:bg-[#31394d]"
+                        className="p-2 rounded-lg bg-surface-container-high text-error hover:bg-surface-container-highest"
                       >
-                        <span className="material-symbols-outlined text-base">delete</span>
+                        <Icon name="delete" size={16} />
                       </button>
                     </div>
                   </div>
@@ -750,62 +749,46 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
           {/* TAB 4: PRECIOS Y DOCUMENTACIÓN */}
           {activeTab === 'pricing' && (
             <div className="flex flex-col gap-6">
-              <div className="bg-[#171f33] border border-[#222a3d] p-4 rounded-xl">
-                <h3 className="font-headline-sm text-headline-sm text-[#dae2fd]">
+              <div className="bg-surface-container border border-surface-container-high p-4 rounded-xl">
+                <h3 className="font-headline-sm text-headline-sm text-on-surface">
                   Estructura Comercial &amp; Aranceles
                 </h3>
-                <p className="font-body-sm text-body-sm text-[#bec8d2]">
-                  Defina los precios sugeridos al público, cuota de reserva y gastos de matrícula.
+                <p className="font-body-sm text-body-sm text-on-surface-variant">
+                  Defina los precios sugeridos al público y gastos de matrícula.
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-[#060e20] border border-[#222a3d] p-4 rounded-xl flex flex-col gap-2">
-                  <label className="font-label-sm text-label-sm text-[#bec8d2] uppercase">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-surface-container-lowest border border-surface-container-high p-4 rounded-xl flex flex-col gap-2">
+                  <label className="font-label-sm text-label-sm text-on-surface-variant uppercase">
                     Precio de Venta Contado (PVP COP)
                   </label>
                   <div className="relative">
-                    <span className="absolute left-3 top-2.5 font-spec-data text-spec-data text-[#89ceff]">$</span>
+                    <span className="absolute left-3 top-2.5 font-spec-data text-spec-data text-primary">$</span>
                     <input
                       type="number"
                       value={priceRetailCop}
                       onChange={(e) => setPriceRetailCop(Number(e.target.value))}
-                      className="w-full h-11 bg-[#131b2e] border border-[#2d3449] text-[#dae2fd] font-spec-data text-spec-data pl-8 pr-3 rounded-lg focus:border-[#0ea5e9] focus:outline-none"
+                      className="w-full h-11 bg-surface-container-low border border-outline-variant text-on-surface font-spec-data text-spec-data pl-8 pr-3 rounded-lg focus:border-primary focus:outline-none"
                     />
                   </div>
-                  <span className="font-body-sm text-body-sm text-[#88929b]">IVA e impuestos locales incluidos</span>
+                  <span className="font-body-sm text-body-sm text-outline">IVA e impuestos locales incluidos</span>
                 </div>
 
-                <div className="bg-[#060e20] border border-[#222a3d] p-4 rounded-xl flex flex-col gap-2">
-                  <label className="font-label-sm text-label-sm text-[#bec8d2] uppercase">
-                    Monto Mínimo de Apartado (COP)
-                  </label>
-                  <div className="relative">
-                    <span className="absolute left-3 top-2.5 font-spec-data text-spec-data text-[#b4c5ff]">$</span>
-                    <input
-                      type="number"
-                      value={priceReserveCop}
-                      onChange={(e) => setPriceReserveCop(Number(e.target.value))}
-                      className="w-full h-11 bg-[#131b2e] border border-[#2d3449] text-[#dae2fd] font-spec-data text-spec-data pl-8 pr-3 rounded-lg focus:border-[#0ea5e9] focus:outline-none"
-                    />
-                  </div>
-                  <span className="font-body-sm text-body-sm text-[#88929b]">Bloquea chasis por 5 días hábiles</span>
-                </div>
-
-                <div className="bg-[#060e20] border border-[#222a3d] p-4 rounded-xl flex flex-col gap-2">
-                  <label className="font-label-sm text-label-sm text-[#bec8d2] uppercase">
+                <div className="bg-surface-container-lowest border border-surface-container-high p-4 rounded-xl flex flex-col gap-2">
+                  <label className="font-label-sm text-label-sm text-on-surface-variant uppercase">
                     Gestoría &amp; Placas de Rodaje (COP)
                   </label>
                   <div className="relative">
-                    <span className="absolute left-3 top-2.5 font-spec-data text-spec-data text-[#dae2fd]">$</span>
+                    <span className="absolute left-3 top-2.5 font-spec-data text-spec-data text-on-surface">$</span>
                     <input
                       type="number"
                       value={priceRegistrationCop}
                       onChange={(e) => setPriceRegistrationCop(Number(e.target.value))}
-                      className="w-full h-11 bg-[#131b2e] border border-[#2d3449] text-[#dae2fd] font-spec-data text-spec-data pl-8 pr-3 rounded-lg focus:border-[#0ea5e9] focus:outline-none"
+                      className="w-full h-11 bg-surface-container-low border border-outline-variant text-on-surface font-spec-data text-spec-data pl-8 pr-3 rounded-lg focus:border-primary focus:outline-none"
                     />
                   </div>
-                  <span className="font-body-sm text-body-sm text-[#88929b]">Trámite de SOAT y Registro Público</span>
+                  <span className="font-body-sm text-body-sm text-outline">Trámite de SOAT y Registro Público</span>
                 </div>
               </div>
             </div>
@@ -813,9 +796,9 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
         </div>
 
         {/* 4. Modal Footer */}
-        <div className="px-8 py-4 bg-[#171f33] border-t border-[#222a3d] flex flex-col sm:flex-row items-center justify-between gap-4 shrink-0 shadow-lg relative z-10">
-          <div className="flex items-center gap-2 text-[#88929b] font-body-sm text-body-sm">
-            <span className="material-symbols-outlined text-base">info</span>
+        <div className="px-8 py-4 bg-surface-container border-t border-surface-container-high flex flex-col sm:flex-row items-center justify-between gap-4 shrink-0 shadow-lg relative z-10">
+          <div className="flex items-center gap-2 text-outline font-body-sm text-body-sm">
+            <Icon name="info" size={16} />
             <span>Los cambios publicados se sincronizan al instante en el catálogo público y cotizador web.</span>
           </div>
 
@@ -823,25 +806,25 @@ export const AdminAddEditModal: React.FC<AdminAddEditModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="px-5 py-2.5 rounded-lg bg-[#222a3d] hover:bg-[#31394d] border border-[#3e4850] text-[#dae2fd] font-label-lg text-label-lg transition-colors cursor-pointer"
+              className="px-5 py-2.5 rounded-lg bg-surface-container-high hover:bg-surface-container-highest border border-outline text-on-surface font-label-lg text-label-lg transition-colors cursor-pointer"
             >
               Cancelar
             </button>
             <button
               type="button"
               onClick={() => handleSaveAndPublish(true)}
-              className="px-5 py-2.5 rounded-lg bg-[#060e20] hover:bg-[#131b2e] border border-[#2d3449] text-[#89ceff] font-label-lg text-label-lg flex items-center gap-2 transition-colors cursor-pointer"
+              className="px-5 py-2.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-low border border-outline-variant text-primary font-label-lg text-label-lg flex items-center gap-2 transition-colors cursor-pointer"
             >
-              <span className="material-symbols-outlined text-lg">bookmark</span>
+              <Icon name="bookmark" size={18} />
               <span>Guardar como Borrador</span>
             </button>
             <button
               type="button"
               onClick={() => handleSaveAndPublish(false)}
-              className="px-6 py-2.5 rounded-lg bg-[#0ea5e9] hover:bg-[#0053db] text-[#003751] hover:text-[#cdd7ff] font-label-lg text-label-lg font-bold flex items-center gap-2 shadow-lg transition-all cursor-pointer"
+              className="px-6 py-2.5 rounded-lg bg-primary hover:bg-primary text-on-primary-container hover:text-on-primary font-label-lg text-label-lg font-bold flex items-center gap-2 shadow-lg transition-all cursor-pointer"
             >
               <span>Guardar y Publicar en Vitrina</span>
-              <span className="material-symbols-outlined text-xl">arrow_forward</span>
+              <Icon name="arrow_forward" size={20} />
             </button>
           </div>
         </div>

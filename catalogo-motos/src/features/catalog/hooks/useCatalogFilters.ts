@@ -6,7 +6,6 @@ export const useCatalogFilters = (motorcycles: Motorcycle[]) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedBrand, setSelectedBrand] = useState('Todas');
   const [selectedStatus, setSelectedStatus] = useState('todos');
-  const [selectedDisplacement, setSelectedDisplacement] = useState('todos');
 
   const filteredBikes = useMemo(
     () =>
@@ -15,18 +14,15 @@ export const useCatalogFilters = (motorcycles: Motorcycle[]) => {
           matchesMotorcycleSearch(bike, searchQuery) &&
           (selectedBrand === 'Todas' ||
             bike.brand.toLowerCase() === selectedBrand.toLowerCase()) &&
-          (selectedStatus === 'todos' || bike.status === selectedStatus) &&
-          (selectedDisplacement === 'todos' ||
-            bike.displacementSegment === selectedDisplacement)
+          (selectedStatus === 'todos' || bike.status === selectedStatus)
       ),
-    [motorcycles, searchQuery, selectedBrand, selectedStatus, selectedDisplacement]
+    [motorcycles, searchQuery, selectedBrand, selectedStatus]
   );
 
   const resetFilters = () => {
     setSearchQuery('');
     setSelectedBrand('Todas');
     setSelectedStatus('todos');
-    setSelectedDisplacement('todos');
   };
 
   return {
@@ -36,8 +32,6 @@ export const useCatalogFilters = (motorcycles: Motorcycle[]) => {
     setSelectedBrand,
     selectedStatus,
     setSelectedStatus,
-    selectedDisplacement,
-    setSelectedDisplacement,
     filteredBikes,
     resetFilters,
   };

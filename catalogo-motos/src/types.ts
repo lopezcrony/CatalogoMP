@@ -48,22 +48,6 @@ export interface Motorcycle {
   badge?: string;
 }
 
-export interface CustomerInquiry {
-  id: string;
-  bikeId: number;
-  bikeName: string;
-  clientName: string;
-  documentId: string;
-  phone: string;
-  email: string;
-  type: 'reserva' | 'testride' | 'alerta';
-  date: string;
-  status: 'Pendiente' | 'Validada' | 'Agendada' | 'Entregada';
-  depositAmount?: string;
-  preferredTime?: string;
-  city?: string;
-}
-
 export interface HomologationModel {
   id: string;
   name: string;

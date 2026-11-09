@@ -20,9 +20,9 @@ export const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({ bikeName }) => {
         rel="noopener noreferrer"
         target="_blank"
       >
-        <div className="hidden sm:flex items-center gap-2 bg-[#060e20]/95 backdrop-blur-md px-3.5 py-2 rounded-full border border-[#222a3d] shadow-2xl transition-all group-hover:border-[#10b981]/50">
+        <div className="hidden sm:flex items-center gap-2 bg-surface-container-lowest/95 backdrop-blur-md px-3.5 py-2 rounded-full border border-surface-container-high shadow-2xl transition-all group-hover:border-tertiary/50">
          
-          <span className="font-label-sm text-label-sm text-[#dae2fd] font-bold uppercase tracking-wider">
+          <span className="font-label-sm text-label-sm text-on-surface font-bold uppercase tracking-wider">
             Asesor en línea
           </span>
         </div>

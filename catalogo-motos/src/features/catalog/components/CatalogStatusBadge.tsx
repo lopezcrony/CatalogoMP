@@ -4,23 +4,23 @@ import { BikeStatus } from '../../../types';
 const statusContent: Record<BikeStatus, { label: string; className: string; dotClassName: string }> = {
   disponible: {
     label: 'Disponible',
-    className: 'bg-[#003824]/60 text-[#4edea3] border-[#4edea3]/30',
-    dotClassName: 'bg-[#4edea3] animate-pulse shadow-[0_0_8px_#4edea3]',
+    className: 'bg-tertiary-container/60 text-tertiary border-tertiary/30',
+    dotClassName: 'bg-tertiary animate-pulse shadow-[0_0_8px_rgba(21,128,61,0.35)]',
   },
   espera: {
     label: 'En Espera (15 Días)',
-    className: 'bg-[#002a78]/60 text-[#dbe1ff] border-[#b4c5ff]/30',
-    dotClassName: 'bg-[#b4c5ff]',
+    className: 'bg-primary-container/60 text-on-surface border-primary/30',
+    dotClassName: 'bg-primary',
   },
   revision: {
     label: 'En Revisión',
-    className: 'bg-[#2d3449]/70 text-[#89ceff] border-[#89ceff]/30',
-    dotClassName: 'bg-[#0ea5e9] animate-ping',
+    className: 'bg-outline-variant/70 text-primary border-primary/30',
+    dotClassName: 'bg-primary animate-ping',
   },
   agotada: {
     label: 'Agotado',
-    className: 'bg-[#690005]/60 text-[#ffb4ab] border-[#ffb4ab]/30',
-    dotClassName: 'bg-[#ffb4ab]',
+    className: 'bg-error-container/60 text-error border-error/30',
+    dotClassName: 'bg-error',
   },
 };
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Icon } from './Icon';
 
 interface NavbarProps {
   onNavigate: (view: string) => void;
@@ -14,7 +15,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   
 }) => {
   return (
-    <header className="fixed top-0 w-full z-50 bg-[#0b1326]/90 backdrop-blur-xl border-b border-[#222a3d] shadow-[0_1px_8px_rgba(0,0,0,0.4)]">
+    <header className="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-xl border-b border-surface-container-high shadow-[0_1px_8px_rgba(0,0,0,0.4)]">
       <div className="h-20 max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between gap-6">
         {/* Brand / Logo */}
         <div
@@ -22,7 +23,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           className="flex items-center gap-4 cursor-pointer select-none group"
         >
           <div className="flex flex-col">
-            <span className="font-label-sm text-label-sm text-[#89ceff] tracking-widest uppercase">
+            <span className="font-label-sm text-label-sm text-primary tracking-widest uppercase">
               Catálogo Oficial de Motocicletas
             </span>
           </div>
@@ -34,9 +35,9 @@ export const Navbar: React.FC<NavbarProps> = ({
           
           <button
             onClick={() => onNavigate('showroom')}
-            className="font-label-lg text-label-lg text-[#bec8d2] hover:text-[#dae2fd] transition-colors py-1.5 px-3"
+            className="font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors py-1.5 px-3"
           >
-            Financiamiento &amp; Reservas
+            Financiamiento
           </button>
          
         </nav>
@@ -47,9 +48,10 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Admin Switcher Button */}
           <button
             onClick={onOpenAdmin}
-            className="flex items-center gap-2 bg-[#222a3d] hover:bg-[#31394d] border border-[#3e4850] text-[#dae2fd] px-3.5 py-1.5 rounded-lg transition-all font-semibold shadow-sm cursor-pointer"
+            className="flex items-center gap-2 bg-surface-container-high hover:bg-surface-container-highest border border-outline text-on-surface px-3.5 py-1.5 rounded-lg transition-all font-semibold shadow-sm cursor-pointer"
           >
-            <span className="w-2 h-2 rounded-full bg-[#00b17b] shadow-[0_0_8px_#00b17b]"></span>
+            <Icon name="shield" size={16} />
+            <span className="w-2 h-2 rounded-full bg-tertiary shadow-[0_0_8px_rgba(21,128,61,0.35)]"></span>
             <span className="font-label-sm text-label-sm uppercase tracking-wide">
               {isAdminLoggedIn ? 'Panel Admin' : 'Acceso Admin'}
             </span>

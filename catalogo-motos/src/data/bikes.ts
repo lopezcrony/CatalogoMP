@@ -1,4 +1,4 @@
-import { Motorcycle, HomologationModel, CustomerInquiry } from '../types';
+import { Motorcycle, HomologationModel } from '../types';
 
 export const INITIAL_MOTORCYCLES: Motorcycle[] = [
   {
@@ -83,7 +83,7 @@ export const INITIAL_MOTORCYCLES: Motorcycle[] = [
         stock: 0,
         transitStock: 0,
         status: 'agotada',
-        statusText: 'Agotada / Reserva',
+        statusText: 'Agotada',
         colorHex: '#38bdf8',
         secondaryHex: '#64748b'
       }
@@ -707,7 +707,7 @@ export const INITIAL_HOMOLOGATIONS: HomologationModel[] = [
       {
         id: 'chk-4',
         title: 'Asignación de stock de preventa inicial',
-        subtitle: 'Configurar pasarela de abonos mínimos de $2.000.000 COP por reserva en el showroom online.',
+        subtitle: 'Definir el flujo de cotización y contacto comercial para el showroom online.',
         badge: '10 Cupos',
         badgeClass: 'bg-surface-variant text-on-surface-variant',
         completed: false
@@ -781,69 +781,10 @@ export const INITIAL_HOMOLOGATIONS: HomologationModel[] = [
   }
 ];
 
-export const INITIAL_INQUIRIES: CustomerInquiry[] = [
-  {
-    id: 'INQ-101',
-    bikeId: 1,
-    bikeName: 'Yamaha MT-09 SP 2025',
-    clientName: 'Alejandro Valdés',
-    documentId: '1098472910',
-    phone: '+34 622 910 442',
-    email: 'alejandro.valdes@gmail.com',
-    type: 'reserva',
-    date: 'Hoy, 14:10',
-    status: 'Validada',
-    depositAmount: '$2.000.000 COP',
-    city: 'Madrid / Showroom Central'
-  },
-  {
-    id: 'INQ-102',
-    bikeId: 3,
-    bikeName: 'BMW S1000RR M 2025',
-    clientName: 'Carlos Mendoza',
-    documentId: '80241923',
-    phone: '+34 689 312 800',
-    email: 'carlos.mendoza@apexmail.com',
-    type: 'testride',
-    date: 'Hoy, 11:35',
-    status: 'Agendada',
-    preferredTime: 'Sábado 10:00 AM',
-    city: 'Pabellón Trackside'
-  },
-  {
-    id: 'INQ-103',
-    bikeId: 2,
-    bikeName: 'Kawasaki Ninja ZX-6R 2025',
-    clientName: 'Mariana Ospina',
-    documentId: '102394812',
-    phone: '+34 655 421 990',
-    email: 'mariana.ospina@icloud.com',
-    type: 'reserva',
-    date: 'Ayer, 18:20',
-    status: 'Pendiente',
-    depositAmount: '$2.000.000 COP',
-    city: 'Showroom Online'
-  },
-  {
-    id: 'INQ-104',
-    bikeId: 4,
-    bikeName: 'Ducati Monster Plus 2024',
-    clientName: 'Diego Forlán',
-    documentId: '98412891',
-    phone: '+34 611 773 201',
-    email: 'diego.forlan@motorsport.es',
-    type: 'alerta',
-    date: '21 Oct, 16:00',
-    status: 'Pendiente',
-    city: 'Taller PDI'
-  }
-];
-
 export const APEX_DEALERSHIP_STATS = {
   totalMotos: 42,
   disponibles: 28,
   preventa: 8,
   agotadas: 4,
-  enRevision: 2,
-  reservasWeb: 15
+  enRevision: 2
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import { BikeSlide } from '../../../types';
+import { Icon } from '../../../components/Icon';
 
 interface MotorcycleGalleryProps {
   name: string;
@@ -23,7 +24,7 @@ export const MotorcycleGallery: React.FC<MotorcycleGalleryProps> = ({
   const activeSlide = slides[activeSlideIndex] || slides[0];
 
   return (
-    <div className="relative w-full bg-[#060e20] overflow-hidden border-y border-[#222a3d]">
+    <div className="relative w-full bg-surface-container-lowest overflow-hidden border-y border-surface-container-high">
       <div className="relative w-full h-56 flex items-center justify-center p-3">
         <img
           src={activeSlide?.url}
@@ -32,34 +33,34 @@ export const MotorcycleGallery: React.FC<MotorcycleGalleryProps> = ({
         />
         <button
           onClick={onPrevious}
-          className="absolute left-2 top-1/2 -translate-y-1/2 bg-[#0b1326]/80 hover:bg-[#0ea5e9] text-[#dae2fd] hover:text-[#003751] p-1.5 rounded-full transition-colors backdrop-blur-md cursor-pointer"
+          className="absolute left-2 top-1/2 -translate-y-1/2 bg-surface/80 hover:bg-primary text-on-surface hover:text-on-primary-container p-1.5 rounded-full transition-colors backdrop-blur-md cursor-pointer"
           title="Anterior foto"
         >
-          <span className="material-symbols-outlined text-sm">chevron_left</span>
+          <Icon name="chevron_left" size={16} />
         </button>
         <button
           onClick={onNext}
-          className="absolute right-2 top-1/2 -translate-y-1/2 bg-[#0b1326]/80 hover:bg-[#0ea5e9] text-[#dae2fd] hover:text-[#003751] p-1.5 rounded-full transition-colors backdrop-blur-md cursor-pointer"
+          className="absolute right-2 top-1/2 -translate-y-1/2 bg-surface/80 hover:bg-primary text-on-surface hover:text-on-primary-container p-1.5 rounded-full transition-colors backdrop-blur-md cursor-pointer"
           title="Siguiente foto"
         >
-          <span className="material-symbols-outlined text-sm">chevron_right</span>
+          <Icon name="chevron_right" size={16} />
         </button>
-        <span className="absolute bottom-2 left-3 bg-[#060e20]/80 backdrop-blur-md text-[#bec8d2] font-label-sm text-label-sm px-2 py-0.5 rounded border border-[#222a3d]">
+        <span className="absolute bottom-2 left-3 bg-surface-container-lowest/80 backdrop-blur-md text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded border border-surface-container-high">
           {activeSlideIndex + 1}/{slides.length} · {activeSlide?.title}
         </span>
-        <span className="absolute bottom-2 right-3 bg-[#171f33]/90 backdrop-blur-md px-2.5 py-1 rounded font-spec-data text-spec-data text-[#89ceff]">
+        <span className="absolute bottom-2 right-3 bg-surface-container/90 backdrop-blur-md px-2.5 py-1 rounded font-spec-data text-spec-data text-primary">
           {displacement}
         </span>
       </div>
-      <div className="grid grid-cols-6 gap-1 p-2 bg-[#060e20] border-t border-[#171f33]">
+      <div className="grid grid-cols-6 gap-1 p-2 bg-surface-container-lowest border-t border-surface-container">
         {slides.map((slide, index) => (
           <button
             key={slide.title}
             onClick={() => onSelectSlide(index)}
-            className={`h-10 rounded overflow-hidden cursor-pointer bg-[#171f33] p-0.5 transition-all ${
+            className={`h-10 rounded overflow-hidden cursor-pointer bg-surface-container p-0.5 transition-all ${
               index === activeSlideIndex
-                ? 'ring-2 ring-[#0ea5e9] opacity-100'
-                : 'opacity-50 hover:opacity-100 hover:bg-[#222a3d]'
+                ? 'ring-2 ring-primary opacity-100'
+                : 'opacity-50 hover:opacity-100 hover:bg-surface-container-high'
             }`}
           >
             <img src={slide.url} alt={slide.title} className="w-full h-full object-cover rounded-xs" />

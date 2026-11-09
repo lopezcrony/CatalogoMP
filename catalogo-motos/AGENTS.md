@@ -22,7 +22,7 @@ de demostración; todavía no está conectada a Supabase.
 - **Entrada web:** `src/app/layout.tsx` define el layout, metadata y estilos globales;
   `src/app/page.tsx` monta la aplicación cliente.
 - **Aplicación:** `src/App.tsx` concentra el estado de navegación, inventario,
-  homologaciones, reservas y modales.
+  homologaciones y modales.
 - **Componentes compartidos:** `src/components/` contiene `Navbar`, `Footer`,
   `WhatsAppButton`, `ShowroomCatalog` y `VehicleDetailPage`, que se reutilizan o
   coordinan la experiencia pública.
@@ -31,8 +31,6 @@ de demostración; todavía no está conectada a Supabase.
   `ShowroomCatalog` conserva la composición de la página y usa piezas especializadas.
 - **Feature admin:** `src/features/admin/components/` contiene el panel administrativo,
   su login, navegación, inventario, homologaciones, reservas y configuración.
-- **Feature reservations:** `src/features/reservations/components/` contiene los
-  modales públicos de reserva y prueba de manejo.
 - **Datos temporales:** `src/data/bikes.ts` contiene inventario, homologaciones e
   inquietudes iniciales en memoria.
 - **Tipos:** `src/types.ts` define `Motorcycle`, `CustomerInquiry` y
@@ -42,6 +40,9 @@ de demostración; todavía no está conectada a Supabase.
 - **Formateo:** `src/lib/formatters.ts` centraliza la presentación de valores COP.
 - **Estilos:** `src/index.css` contiene los tokens visuales de Stitch y las clases
   globales Tailwind.
+- **Paleta:** las vistas deben consumir los tokens semánticos definidos en
+  `src/index.css` (`surface`, `on-surface`, `primary`, `tertiary`, `error` y sus
+  variantes); no agregar colores hexadecimales directamente en clases Tailwind.
 
 ## Flujo de vistas
 
@@ -50,10 +51,10 @@ de demostración; todavía no está conectada a Supabase.
 1. `showroom`: catálogo público (`ShowroomCatalog`).
 2. `vdp`: detalle de una motocicleta (`VehicleDetailPage`).
 3. `admin-login`: acceso simulado al panel (`AdminLogin`).
-4. `admin`: consola con inventario, resumen, homologación, reservas y ajustes.
+4. `admin`: consola con inventario, resumen, homologación y ajustes.
 
-Las reservas, pruebas de manejo, cambios de inventario y aprobaciones de homologación
-solo viven en el estado de React y se pierden al recargar la página.
+Los cambios de inventario y las aprobaciones de homologación solo viven en el estado
+de React y se pierden al recargar la página.
 
 ## Convenciones para próximos cambios
 
@@ -70,12 +71,17 @@ solo viven en el estado de React y se pierden al recargar la página.
   visuales del catálogo deben recibir datos y callbacks mediante props.
 - Colocar nuevos elementos reutilizables de la vitrina en
   `src/features/catalog/components/` en lugar de aumentar `ShowroomCatalog.tsx`.
-- Colocar componentes exclusivos del panel o de los flujos de reserva en su feature;
-  no devolverlos a `src/components/`.
+- Colocar componentes exclusivos del panel en `src/features/admin/`; no devolverlos a
+  `src/components/`.
+- La cilindrada se conserva como especificación técnica visible, pero no existe como
+  filtro ni criterio de búsqueda del catálogo.
 - `MotorcycleCard` compone la tarjeta y sus acciones; `MotorcycleGallery` encapsula
   la galería; `CatalogStatusBadge` centraliza la presentación de estados; los hooks
   `useCatalogFilters` y `useMotorcycleCardState` contienen estado de interacción.
 - Validar los cambios con `npm run lint` y `npm run build`.
+- El panel administrativo es responsive: la barra lateral se muestra fija desde
+  `md` y se abre como menú superpuesto en pantallas menores; el contenido debe
+  conservar el espaciado responsive del shell definido en `src/App.tsx`.
 - No eliminar los datos mock hasta contar con una fuente remota equivalente y estados
   explícitos de carga, error y vacío.
 

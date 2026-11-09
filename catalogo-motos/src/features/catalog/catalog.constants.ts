@@ -2,14 +2,6 @@ import { BikeStatus, Motorcycle } from '../../types';
 
 export const CATALOG_BRANDS = ['Todas', 'Yamaha', 'Kawasaki', 'BMW', 'Ducati', 'Honda', 'KTM'];
 
-export const CATALOG_DISPLACEMENTS = [
-  'todos',
-  '125-250 cc',
-  '300-500 cc',
-  '650-900 cc',
-  '1000 cc+',
-] as const;
-
 export const CATALOG_STATUSES: Array<{
   value: 'todos' | BikeStatus;
   label: string;
