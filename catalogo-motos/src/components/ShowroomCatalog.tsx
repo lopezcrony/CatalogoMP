@@ -2,7 +2,6 @@ import React from 'react';
 import { Motorcycle } from '../types';
 import { MotorcycleCard } from '../features/catalog/components/MotorcycleCard';
 import {
-  CATALOG_BRANDS,
   CATALOG_STATUSES,
 } from '../features/catalog/catalog.constants';
 import { useCatalogFilters } from '../features/catalog/hooks/useCatalogFilters';
@@ -11,13 +10,11 @@ import { Icon } from './Icon';
 interface ShowroomCatalogProps {
   motorcycles: Motorcycle[];
   onSelectBikeForDetail: (bike: Motorcycle) => void;
-  onOpenNotify: (bike: Motorcycle) => void;
 }
 
 export const ShowroomCatalog: React.FC<ShowroomCatalogProps> = ({
   motorcycles,
   onSelectBikeForDetail,
-  onOpenNotify,
 }) => {
   const {
     searchQuery,
@@ -29,6 +26,7 @@ export const ShowroomCatalog: React.FC<ShowroomCatalogProps> = ({
     filteredBikes,
     resetFilters,
   } = useCatalogFilters(motorcycles);
+  const catalogBrands = ['Todas', ...new Set(motorcycles.map((motorcycle) => motorcycle.brand))];
 
   return (
     <div className="flex flex-col w-full">
@@ -101,7 +99,7 @@ export const ShowroomCatalog: React.FC<ShowroomCatalogProps> = ({
                 <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider shrink-0 mr-1">
                   Marca:
                 </span>
-                {CATALOG_BRANDS.map((brand) => (
+                {catalogBrands.map((brand) => (
                   <button
                     key={brand}
                     onClick={() => setSelectedBrand(brand)}
@@ -176,7 +174,6 @@ export const ShowroomCatalog: React.FC<ShowroomCatalogProps> = ({
                   key={bike.id}
                   bike={bike}
                   onSelect={onSelectBikeForDetail}
-                  onOpenNotify={onOpenNotify}
                 />
               ))}
             </div>

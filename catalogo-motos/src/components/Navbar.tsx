@@ -1,18 +1,13 @@
 import React from 'react';
-import { Icon } from './Icon';
 
 interface NavbarProps {
   onNavigate: (view: string) => void;
-  isAdminLoggedIn: boolean;
-  onOpenAdmin: () => void;
-  
+  onOpenCreditInfo: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
   onNavigate,
-  isAdminLoggedIn,
-  onOpenAdmin,
-  
+  onOpenCreditInfo,
 }) => {
   return (
     <header className="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-xl border-b border-surface-container-high shadow-[0_1px_8px_rgba(0,0,0,0.4)]">
@@ -34,7 +29,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           
           
           <button
-            onClick={() => onNavigate('showroom')}
+            onClick={onOpenCreditInfo}
             className="font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors py-1.5 px-3"
           >
             Financiamiento
@@ -42,22 +37,6 @@ export const Navbar: React.FC<NavbarProps> = ({
          
         </nav>
 
-        {/* Actions Zone */}
-        <div className="flex items-center gap-3 shrink-0">
-         
-          {/* Admin Switcher Button */}
-          <button
-            onClick={onOpenAdmin}
-            className="flex items-center gap-2 bg-surface-container-high hover:bg-surface-container-highest border border-outline text-on-surface px-3.5 py-1.5 rounded-lg transition-all font-semibold shadow-sm cursor-pointer"
-          >
-            <Icon name="shield" size={16} />
-            <span className="w-2 h-2 rounded-full bg-tertiary shadow-[0_0_8px_rgba(21,128,61,0.35)]"></span>
-            <span className="font-label-sm text-label-sm uppercase tracking-wide">
-              {isAdminLoggedIn ? 'Panel Admin' : 'Acceso Admin'}
-            </span>
-          </button>
-
-        </div>
       </div>
     </header>
   );

@@ -69,12 +69,7 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
           </button>
         )}
 
-        {/* Profile Avatar */}
-        <img
-          alt="Gerente de Ventas"
-          className="w-8 h-8 rounded-full object-cover ring-1 ring-outline"
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuhRbKmtfTdrEb2wS1y_uLz01RjzNCeey9WVV3mXg2NQ6U4bIIU_hX2kMUayFLN8BsekaicYYu0W2xjy0FVz-Pqxd5nKsaO3_GJvJuMQG9htqxo78vl9mdbzYOYihkyzUfOCWxX7Z3xTccxSwompvfezqeNmSNHMNZjoX6BZ-1co1MKDc_LIzY7p75jiOYR8DJ-UY1K1voxM511i6wQYNtZmuqT4nVEaSkIYj9t-Nz0cZ5Ufb_6zzc"
-        />
+       
       </div>
     </header>
   );

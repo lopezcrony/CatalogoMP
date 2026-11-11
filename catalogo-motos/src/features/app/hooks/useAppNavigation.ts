@@ -2,15 +2,20 @@ import { useState } from 'react';
 import { Motorcycle } from '../../../types';
 
 export type AppMode = 'showroom' | 'vdp' | 'admin-login' | 'admin';
-export type AdminTab = 'general' | 'inventario' | 'homologacion' | 'ajustes';
+export type AdminTab =
+  | 'general'
+  | 'inventario'
+  | 'marcas'
+  | 'colores'
+  | 'imagenes'
+  | 'caracteristicas'
+  | 'revisiones';
 
-export const useAppNavigation = (motorcycles: Motorcycle[]) => {
+export const useAppNavigation = () => {
   const [currentMode, setCurrentMode] = useState<AppMode>('showroom');
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
   const [adminTab, setAdminTab] = useState<AdminTab>('inventario');
-  const [selectedBikeForDetail, setSelectedBikeForDetail] = useState<Motorcycle>(
-    motorcycles.find((bike) => bike.id === 1) || motorcycles[0]
-  );
+  const [selectedBikeForDetail, setSelectedBikeForDetail] = useState<Motorcycle | null>(null);
 
   const selectBikeForDetail = (bike: Motorcycle) => {
     setSelectedBikeForDetail(bike);

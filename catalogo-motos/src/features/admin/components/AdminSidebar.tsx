@@ -1,10 +1,15 @@
 import React from 'react';
-import { Icon } from '../../../components/Icon';
+import { Icon, type IconName } from '../../../components/Icon';
+
+const catalogSections: Array<{ tab: string; icon: IconName; label: string }> = [
+  { tab: 'marcas', icon: 'store', label: 'Marcas' },
+  { tab: 'caracteristicas', icon: 'tags', label: 'Características Técnicas' },
+  { tab: 'revisiones', icon: 'fact_check', label: 'Revisiones anuales' },
+];
 
 interface AdminSidebarProps {
   currentTab: string;
   onSelectTab: (tab: string) => void;
-  pendingHomologationsCount: number;
   onBackToShowroom: () => void;
   onLogout: () => void;
   isOpen: boolean;
@@ -14,7 +19,6 @@ interface AdminSidebarProps {
 export const AdminSidebar: React.FC<AdminSidebarProps> = ({
   currentTab,
   onSelectTab,
-  pendingHomologationsCount,
   onBackToShowroom,
   onLogout,
   isOpen,
@@ -37,13 +41,13 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
         <div className="px-6 flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
           <img
-            alt="Apex Moto Logo"
+            alt="Logo"
             className="h-8 w-auto object-contain"
             src="https://lh3.googleusercontent.com/aida/AEtjO1VAlH_yQvgdRynQYMOqInryGz1B7iboJ9UDnaF6jjb3kzysZlZSAUsEpRv5vV5UgJgIkWorLe4y9V6zCAEZ24JmVVC9KYSHR8qVbEwo1BUW-4ElnXOYq_8REF_m2lG_wNGbrHMAdLboKJ0VJC6MwLSVPPFNRFw6W_VbBWfSVM_d4m3H5XsU8sQgadKFF4oZoB0x2FmRMLXKID0H6kvTa-aprTpuLsUR9FcK0Qk3-rNvg0LemyoWg9COkA"
           />
           <div className="flex flex-col">
             <span className="font-headline-sm text-headline-sm text-on-surface tracking-tight uppercase leading-none">
-              Apex <span className="text-primary">Moto</span>
+              Moto <span className="text-primary">Sync</span>
             </span>
             <span className="font-label-sm text-label-sm text-primary tracking-widest uppercase">
               Panel Concesionario
@@ -85,36 +89,21 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
             Inventario &amp; Modelos
           </button>
 
-          <button
-            onClick={() => onSelectTab('homologacion')}
-            className={`flex items-center justify-between px-4 py-3 rounded-lg font-label-lg text-label-lg transition-colors cursor-pointer w-full text-left ${
-              currentTab === 'homologacion'
-                ? 'bg-primary text-on-primary-container font-bold shadow-md shadow-primary/20'
-                : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'
-            }`}
-          >
-            <div className="flex items-center gap-3">
-              <Icon name="published_with_changes" size={20} />
-              Revisión Cambio de Año
-            </div>
-            {pendingHomologationsCount > 0 && (
-              <span className="bg-primary text-on-primary-container font-label-sm text-label-sm px-1.5 py-0.5 rounded-full font-bold">
-                {pendingHomologationsCount}
-              </span>
-            )}
-          </button>
+          {catalogSections.map(({ tab, icon, label }) => (
+            <button
+              key={tab}
+              onClick={() => onSelectTab(tab)}
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg font-label-lg text-label-lg transition-colors cursor-pointer w-full text-left ${
+                currentTab === tab
+                  ? 'bg-primary text-on-primary-container font-bold shadow-md shadow-primary/20'
+                  : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'
+              }`}
+            >
+              <Icon name={icon} size={20} />
+              {label}
+            </button>
+          ))}
 
-          <button
-            onClick={() => onSelectTab('ajustes')}
-            className={`flex items-center gap-3 px-4 py-3 rounded-lg font-label-lg text-label-lg transition-colors cursor-pointer w-full text-left ${
-              currentTab === 'ajustes'
-                ? 'bg-primary text-on-primary-container font-bold shadow-md shadow-primary/20'
-                : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'
-            }`}
-          >
-            <Icon name="tune" size={20} />
-            Ajustes &amp; Marcas
-          </button>
         </nav>
       </div>
 

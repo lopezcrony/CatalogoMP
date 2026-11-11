@@ -13,8 +13,8 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 ## Propósito
 
 `catalogo-motos` es un catálogo digital de motocicletas con una vitrina pública y un
-portal administrativo. La interfaz proviene de Stitch y actualmente usa datos locales
-de demostración; todavía no está conectada a Supabase.
+portal administrativo. La interfaz proviene de Stitch y consume datos de Supabase;
+las vistas muestran estados vacíos mientras no existan registros.
 
 ## Arquitectura actual
 
@@ -30,13 +30,13 @@ de demostración; todavía no está conectada a Supabase.
   estado de tarjetas y componentes visuales específicos de la vitrina pública.
   `ShowroomCatalog` conserva la composición de la página y usa piezas especializadas.
 - **Feature admin:** `src/features/admin/components/` contiene el panel administrativo,
-  su login, navegación, inventario, homologaciones, reservas y configuración.
-- **Datos temporales:** `src/data/bikes.ts` contiene inventario, homologaciones e
-  inquietudes iniciales en memoria.
-- **Tipos:** `src/types.ts` define `Motorcycle`, `CustomerInquiry` y
-  `HomologationModel`. Los precios de `Motorcycle` son numéricos y únicamente están
-  expresados en pesos colombianos (`priceRawCop`, `priceDocsCop`,
-  `monthlyFinanceCop`).
+  su login, navegación, inventario, homologaciones y configuración.
+- **Datos:** el inventario, marcas y características proceden de Supabase; no se
+  mantienen registros mock ni datos de prueba en el frontend.
+- **Tipos:** `src/types.ts` define `Motorcycle`, `MotorcycleCharacteristic`,
+  `CharacteristicCategory` y `HomologationModel`. Los precios de `Motorcycle` son
+  numéricos y únicamente están expresados en pesos colombianos (`priceRawCop` y
+  `priceDocsCop`).
 - **Formateo:** `src/lib/formatters.ts` centraliza la presentación de valores COP.
 - **Estilos:** `src/index.css` contiene los tokens visuales de Stitch y las clases
   globales Tailwind.
@@ -51,7 +51,7 @@ de demostración; todavía no está conectada a Supabase.
 1. `showroom`: catálogo público (`ShowroomCatalog`).
 2. `vdp`: detalle de una motocicleta (`VehicleDetailPage`).
 3. `admin-login`: acceso simulado al panel (`AdminLogin`).
-4. `admin`: consola con inventario, resumen, homologación y ajustes.
+4. `admin`: consola con inventario, resumen, catálogo y revisiones anuales.
 
 Los cambios de inventario y las aprobaciones de homologación solo viven en el estado
 de React y se pierden al recargar la página.
@@ -66,7 +66,7 @@ de React y se pierden al recargar la página.
 - Conservar los tipos compartidos en `src/types.ts` y actualizar validaciones y
   componentes cuando cambie el modelo.
 - Mantener COP como la única moneda del dominio; no agregar conversiones ni campos
-  alternativos de moneda en componentes o datos mock.
+  alternativos de moneda en componentes o datos locales.
 - Mantener la lógica de búsqueda y filtros en `src/features/catalog/`; los componentes
   visuales del catálogo deben recibir datos y callbacks mediante props.
 - Colocar nuevos elementos reutilizables de la vitrina en
@@ -75,6 +75,11 @@ de React y se pierden al recargar la página.
   `src/components/`.
 - La cilindrada se conserva como especificación técnica visible, pero no existe como
   filtro ni criterio de búsqueda del catálogo.
+- El crédito se comunica únicamente mediante `CreditInfoModal`, un popup informativo
+  sin formularios, captura de datos ni lógica comercial. La imagen definitiva se
+  incorporará cuando la entregue el cliente.
+- Las tarjetas públicas solo deben conservar el acceso a la ficha completa; no agregar
+  botones de reserva, notificación, cotización o prueba de manejo.
 - `MotorcycleCard` compone la tarjeta y sus acciones; `MotorcycleGallery` encapsula
   la galería; `CatalogStatusBadge` centraliza la presentación de estados; los hooks
   `useCatalogFilters` y `useMotorcycleCardState` contienen estado de interacción.
@@ -82,14 +87,44 @@ de React y se pierden al recargar la página.
 - El panel administrativo es responsive: la barra lateral se muestra fija desde
   `md` y se abre como menú superpuesto en pantallas menores; el contenido debe
   conservar el espaciado responsive del shell definido en `src/App.tsx`.
-- No eliminar los datos mock hasta contar con una fuente remota equivalente y estados
-  explícitos de carga, error y vacío.
+- Las vistas que dependen de Supabase deben manejar explícitamente los estados de
+  carga, error y vacío; no deben incluir fallbacks con datos locales.
+- Las características técnicas se modelan como datos dinámicos mediante
+  `MotorcycleCharacteristic` y `CharacteristicCategory`. El adaptador
+  `getMotorcycleCharacteristics` solo devuelve características recibidas desde el
+  adaptador remoto; no genera valores técnicos locales.
+- `CatalogRepository` define la frontera de lectura para marcas, motos, variantes,
+  imágenes y características; no debe importar Supabase dentro de componentes
+  visuales.
 
 ## Estado conocido
 
 La integración inicial con Next se completó: la página App Router monta la UI cliente,
 los estilos de Stitch se cargan desde el layout y la metadata pertenece al catálogo.
-La base de datos de Supabase queda fuera del alcance de esta etapa.
+
+## Integración Supabase
+
+La infraestructura de Supabase vive en `src/lib/supabase/`:
+
+- `client.ts` crea el cliente oficial usando `NEXT_PUBLIC_SUPABASE_URL` y
+  `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
+- `database.types.ts` contiene el contrato tipado de las tablas y enums definidos
+  para el proyecto.
+- `services/auth.service.ts` contiene autenticación y validación del rol admin.
+- `services/public/` expone las lecturas del catálogo público.
+- `services/admin/` expone CRUD de marcas, motos, colores, imágenes,
+  características, ficha técnica y revisiones.
+- `services/storage.service.ts` encapsula Supabase Storage; las imágenes se limitan
+  a seis por moto desde `images.service.ts`.
+- `errors.ts` centraliza la propagación explícita de errores de Supabase.
+
+Las variables requeridas están documentadas en `.env.example`. No se deben incluir
+valores reales en el repositorio. La aplicación no conserva mocks: los flujos muestran estados de carga, error y vacío
+mientras la base de datos se completa.
+
+Las características del catálogo no se eliminan físicamente cuando están en uso:
+se desactivan mediante `desactivarCaracteristica`; las asociaciones de una ficha
+técnica se gestionan desde `technical-sheet.service.ts`.
 
 <!-- BEGIN:nextjs-agent-feedback -->
 

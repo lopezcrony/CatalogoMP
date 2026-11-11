@@ -2,30 +2,33 @@ import React, { useState } from 'react';
 import { Icon } from '../../../components/Icon';
 
 interface AdminLoginProps {
-  onLoginSuccess: () => void;
+  onLogin: (email: string, password: string) => Promise<void>;
   onBackToShowroom: () => void;
 }
 
 export const AdminLogin: React.FC<AdminLoginProps> = ({
-  onLoginSuccess,
+  onLogin,
   onBackToShowroom,
 }) => {
-  const [email, setEmail] = useState('gerencia.madrid@apexmotogroup.com');
-  const [password, setPassword] = useState('ApexMoto2025!');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
 
-    setTimeout(() => {
+    try {
+      await onLogin(email, password);
+    } catch (loginError) {
+      setError(loginError instanceof Error ? loginError.message : 'No se pudo iniciar sesión.');
+    } finally {
       setIsLoading(false);
-      onLoginSuccess();
-    }, 700);
+    }
   };
 
   return (
@@ -84,7 +87,7 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({
             </div>
             <div className="flex flex-col text-left">
               <span className="font-headline-md text-headline-md tracking-wider text-on-surface uppercase flex items-center gap-1.5">
-                Apex <span className="text-primary">Moto</span>
+                Moto <span className="text-primary">Sync</span>
               </span>
             </div>
           </div>
@@ -96,21 +99,6 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({
         {/* Main Shielded Terminal Card */}
         <div className="bg-surface-container-low/95 border border-outline-variant backdrop-blur-xl rounded-2xl p-6 md:p-10 shadow-2xl shadow-black/10 flex flex-col gap-6">
           {/* Security Telemetry Banner */}
-          <div className="bg-surface-container-high/80 border border-outline/50 rounded-lg p-3 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-tertiary"></span>
-              </span>
-              <span className="font-label-sm text-label-sm uppercase text-on-surface-variant tracking-wide">
-                Acceso Exclusivo • Nivel Admin
-              </span>
-            </div>
-            <div className="flex items-center gap-1 bg-surface-container-lowest/60 px-2 py-0.5 rounded border border-surface-container-high">
-              <Icon name="lock" size={14} className="text-primary" />
-              <span className="font-body-sm text-body-sm text-primary font-semibold">SSL 256-BIT</span>
-            </div>
-          </div>
 
           {error && (
             <div className="p-3 bg-error-container/40 border border-error/40 rounded-lg text-error text-sm">
@@ -145,13 +133,6 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({
                 <label className="font-label-md text-label-md text-on-surface-variant font-semibold" htmlFor="master-pass">
                   Contraseña
                 </label>
-                <button
-                  type="button"
-                  onClick={() => alert('Para soporte con credenciales, contacte a TI Apex Moto en soporte@apex-moto.com')}
-                  className="font-label-sm text-label-sm text-primary hover:underline transition-colors"
-                >
-                  Olvidé mi contraseña
-                </button>
               </div>
               <div className="relative flex items-center">
                 <Icon name="lock" size={20} className="absolute left-3.5 text-outline pointer-events-none" />
@@ -161,7 +142,7 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••••••"
+                  placeholder="••••••••••"
                   className="w-full h-11 bg-surface-container-lowest text-on-surface font-body-md text-body-md rounded-lg pl-11 pr-11 border border-outline-variant focus:outline-none focus:border-primary tracking-wider transition-colors"
                 />
                 <button
@@ -210,33 +191,9 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({
             </button>
           </form>
 
-          {/* Help Link Area */}
-          <div className="text-center pt-2">
-            <button
-              onClick={() => {
-                setEmail('gerencia.madrid@apexmotogroup.com');
-                setPassword('ApexMoto2025!');
-              }}
-              className="font-body-sm text-body-sm text-primary hover:underline transition-colors inline-flex items-center gap-1.5"
-            >
-              <Icon name="contact_support" size={16} />
-              Cargar credenciales de Gerencia de Ventas (Demo)
-            </button>
-          </div>
         </div>
 
-        {/* Compliance & Audit Micro-Footer */}
-        <div className="flex flex-col md:flex-row items-center justify-between px-2 text-outline font-body-sm text-body-sm gap-2">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-tertiary"></span>
-            <span>Sistema Centralizado v4.8.2-PROD</span>
-          </div>
-          <div className="flex items-center gap-4">
-            <span>Auditoría SOC2 Tipo II</span>
-            <span>•</span>
-            <span>Apex Motor Group S.L.</span>
-          </div>
-        </div>
+        
       </div>
     </div>
   );

@@ -1,7 +1,11 @@
 import React from 'react';
 import { Icon } from './Icon';
 
-export const Footer: React.FC = () => {
+interface FooterProps {
+  onOpenAdmin: () => void;
+}
+
+export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
   return (
     <footer className="w-full bg-surface-container-lowest text-on-surface-variant border-t border-surface-container">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 pt-16 pb-12">
@@ -112,6 +116,9 @@ export const Footer: React.FC = () => {
             <a className="hover:text-primary transition-colors" href="#homologation">
               Homologación Técnica
             </a>
+            <button type="button" className="hover:text-primary transition-colors" onClick={onOpenAdmin}>
+              Acceso administrativo
+            </button>
           </div>
         </div>
       </div>

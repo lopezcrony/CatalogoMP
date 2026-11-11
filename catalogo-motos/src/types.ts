@@ -15,10 +15,37 @@ export interface ColorVariant {
 export interface BikeSlide {
   url: string;
   title: string;
+  remoteId?: string;
+  isPrimary?: boolean;
+  order?: number;
+}
+
+export interface MotorcycleCharacteristic {
+  id: string;
+  categoryId: string;
+  categoryName: string;
+  name: string;
+  unit?: string;
+  value: string;
+}
+
+export interface CharacteristicCategory {
+  id: string;
+  name: string;
+  order: number;
+  characteristics: Array<{
+    id: string;
+    name: string;
+    unit?: string;
+    dataType: 'text' | 'number' | 'boolean';
+    active: boolean;
+  }>;
 }
 
 export interface Motorcycle {
   id: number;
+  remoteId?: string;
+  brandId?: string;
   brand: string;
   brandSubtitle: string;
   name: string;
@@ -29,7 +56,6 @@ export interface Motorcycle {
   statusLabel: string;
   priceRawCop: number;
   priceDocsCop: number;
-  monthlyFinanceCop: number;
   chassis: string;
   power: string;
   torque: string;
@@ -44,46 +70,11 @@ export interface Motorcycle {
   colors: ColorVariant[];
   slides: BikeSlide[];
   extras: string[];
+  characteristics?: MotorcycleCharacteristic[];
   verifiedVin?: string;
   badge?: string;
-}
-
-export interface HomologationModel {
-  id: string;
-  name: string;
-  subtitle: string;
-  status: 'selected' | 'pending';
-  outgoing: {
-    year: number;
-    badge: string;
-    image: string;
-    display: string;
-    brakes: string;
-    electronics: string;
-    priceCop: string;
-    stockInfo: string;
-  };
-  incoming: {
-    year: number;
-    badge: string;
-    image: string;
-    display: string;
-    displayDiff: string;
-    brakes: string;
-    brakesDiff: string;
-    electronics: string;
-    electronicsDiff: string;
-    priceCop: string;
-    priceGrowth: string;
-    availability: string;
-  };
-  checklist: Array<{
-    id: string;
-    title: string;
-    subtitle: string;
-    badge: string;
-    badgeClass: string;
-    completed: boolean;
-  }>;
-  approved: boolean;
+  fechaUltimaRevision?: string;
+  fechaProximaRevision?: string;
+  estadoRevision?: 'pendiente' | 'revisada';
+  requiereRevision?: boolean;
 }

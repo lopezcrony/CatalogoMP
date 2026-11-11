@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Motorcycle } from '../types';
 import { formatCop } from '../lib/formatters';
 import { Icon } from './Icon';
+import { getMotorcycleCharacteristics } from '../features/catalog/lib/motorcycleCharacteristics';
 
 interface VehicleDetailPageProps {
   bike: Motorcycle;
@@ -17,6 +18,20 @@ export const VehicleDetailPage: React.FC<VehicleDetailPageProps> = ({
 
   const activeSlide = bike.slides[activeSlideIndex] || bike.slides[0];
   const activeColorObj = bike.colors.find((c) => c.name === selectedColor) || bike.colors[0];
+  const characteristics = getMotorcycleCharacteristics(bike);
+  const groupedCharacteristics = useMemo(() => {
+    const groups = new Map<string, typeof characteristics>();
+    characteristics.forEach((characteristic) => {
+      const current = groups.get(characteristic.categoryId) || [];
+      current.push(characteristic);
+      groups.set(characteristic.categoryId, current);
+    });
+    return [...groups.entries()].map(([categoryId, items]) => ({
+      categoryId,
+      categoryName: items[0]?.categoryName || 'Ficha técnica',
+      items,
+    }));
+  }, [characteristics]);
 
   const handlePrevSlide = () => {
     setActiveSlideIndex((prev) => (prev - 1 + bike.slides.length) % bike.slides.length);
@@ -48,33 +63,33 @@ export const VehicleDetailPage: React.FC<VehicleDetailPageProps> = ({
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-3">
-              <span className="font-label-sm text-label-sm uppercase tracking-widest text-primary font-bold">
-                {bike.brandSubtitle || `${bike.brand} Official Performance`}
-              </span>
+              {bike.brandSubtitle && <span className="font-label-sm text-label-sm uppercase tracking-widest text-primary font-bold">
+                {bike.brandSubtitle}
+              </span>}
               <span className="bg-surface-container border border-surface-container-high px-2.5 py-0.5 rounded-full text-on-surface font-label-sm text-label-sm">
                 Modelo {bike.year}
               </span>
             </div>
             <h1 className="font-headline-xl text-headline-xl text-on-surface tracking-tight font-extrabold uppercase flex flex-wrap items-baseline gap-3">
               {bike.name}
-              <span className="font-headline-md text-headline-md text-on-surface-variant font-normal">
+              {bike.displacement && <span className="font-headline-md text-headline-md text-on-surface-variant font-normal">
                 {bike.displacement}
-              </span>
+              </span>}
             </h1>
           </div>
           <div className="flex items-center gap-3 self-start md:self-auto">
-            <div className="flex items-center gap-2 bg-surface-container-low border border-surface-container-high px-3.5 py-2 rounded-xl">
+            {bike.chassis && <div className="flex items-center gap-2 bg-surface-container-low border border-surface-container-high px-3.5 py-2 rounded-xl">
               <span className="font-body-sm text-body-sm text-on-surface-variant">Chasis:</span>
               <span className="font-label-sm text-label-sm text-on-surface font-bold tracking-wider">
                 {bike.chassis}
               </span>
-            </div>
-            <div className="flex items-center gap-2 bg-tertiary-container/50 border border-tertiary/40 px-4 py-2 rounded-xl">
+            </div>}
+            {bike.badge && <div className="flex items-center gap-2 bg-tertiary-container/50 border border-tertiary/40 px-4 py-2 rounded-xl">
               <span className="w-2.5 h-2.5 rounded-full bg-tertiary shadow-[0_0_10px_rgba(21,128,61,0.35)]"></span>
               <span className="font-label-sm text-label-sm font-bold uppercase tracking-wider text-tertiary">
-                {bike.badge || 'Disponible en Sala'}
+                {bike.badge}
               </span>
-            </div>
+            </div>}
           </div>
         </div>
       </section>
@@ -104,9 +119,6 @@ export const VehicleDetailPage: React.FC<VehicleDetailPageProps> = ({
               </div>
 
               <div className="absolute bottom-4 left-4 right-4 z-20 flex items-center justify-between text-on-surface pointer-events-none">
-                <span className="font-body-sm text-body-sm bg-surface-container-lowest/80 backdrop-blur-sm px-2.5 py-1 rounded border border-surface-container-high">
-                  Resolución Óptica HD 4K
-                </span>
                 <div className="flex items-center gap-1.5 pointer-events-auto">
                   <button
                     onClick={handlePrevSlide}
@@ -159,28 +171,6 @@ export const VehicleDetailPage: React.FC<VehicleDetailPageProps> = ({
               })}
             </div>
 
-            {/* Dynamic Visual Feature Banner */}
-            <div className="bg-surface-container-low border border-surface-container-high p-4 rounded-xl flex items-center justify-between gap-4 mt-2">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center text-primary">
-                  <Icon name="speed" size={20} />
-                </div>
-                <div>
-                  <p className="font-label-lg text-label-lg text-on-surface font-bold">
-                    Potencia y Par de Fábrica
-                  </p>
-                  <p className="font-body-sm text-body-sm text-on-surface-variant">
-                    {bike.power} · Par motor pico de {bike.torque}
-                  </p>
-                </div>
-              </div>
-              <div className="hidden sm:block text-right">
-                <span className="font-spec-data text-spec-data text-primary">0-100 km/h</span>
-                <span className="block font-label-sm text-label-sm text-on-surface-variant">
-                  {bike.acceleration}
-                </span>
-              </div>
-            </div>
           </div>
 
           {/* Right Column: Commercial Pricing, Colors & CTAs (5 Cols) */}
@@ -233,25 +223,6 @@ export const VehicleDetailPage: React.FC<VehicleDetailPageProps> = ({
                   </span>
                 </div>
 
-                {/* Detailed Breakdown List */}
-                <div className="mt-2 pt-2 bg-surface-container-lowest/60 p-3 rounded-lg space-y-1.5 font-body-sm text-body-sm text-on-surface-variant border border-surface-container-high/50">
-                  <div className="flex justify-between">
-                    <span>· Matrícula Oficial RUNT y Placa:</span>
-                    <span className="text-on-surface font-medium">Incluido</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>· Póliza SOAT Vigencia 1 Año:</span>
-                    <span className="text-on-surface font-medium">Incluido</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>· Impuesto Departamental de Rodamiento:</span>
-                    <span className="text-on-surface font-medium">Liquidado {bike.year}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>· Alistamiento Pre-Entrega &amp; Telemetría PDI:</span>
-                    <span className="text-tertiary font-bold">Cortesía Apex</span>
-                  </div>
-                </div>
               </div>
 
               {/* Color Swatch & Unit Allocation Selector */}
@@ -312,11 +283,7 @@ export const VehicleDetailPage: React.FC<VehicleDetailPageProps> = ({
                                 : 'text-error'
                             }`}
                           >
-                            {color.stock > 0
-                              ? `${color.stock} Unid. Disponibles`
-                              : color.transitStock
-                              ? `En Tránsito (${color.transitStock} uds)`
-                              : 'Agotada'}
+                            {color.statusText}
                           </span>
                         </div>
                       </div>
@@ -325,15 +292,6 @@ export const VehicleDetailPage: React.FC<VehicleDetailPageProps> = ({
                 </div>
               </div>
 
-              {/* Trust & Immediate Handover Notes */}
-              <div className="flex items-start gap-3 pt-2 text-on-surface-variant font-body-sm text-body-sm">
-                <Icon name="verified_user" size={18} className="text-tertiary shrink-0 mt-0.5" />
-                <p>
-                  <strong className="text-on-surface">Entrega inmediata en sala:</strong> Despacho en 48
-                  horas tras aprobación de matrícula. Respaldado por {bike.brand} Motor Corporation y red
-                  autorizada Apex.
-                </p>
-              </div>
             </div>
           </div>
         </div>
@@ -357,81 +315,38 @@ export const VehicleDetailPage: React.FC<VehicleDetailPageProps> = ({
                 </span>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
-                <div className="bg-surface-container p-4 rounded-lg flex flex-col gap-1 border border-surface-container-high/50">
-                  <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">
-                    Cilindraje / Motor
-                  </span>
-                  <span className="font-spec-data text-spec-data text-on-surface">
-                    {bike.displacement}
-                  </span>
-                  <span className="font-body-sm text-body-sm text-on-surface-variant">
-                    Refrigeración líquida DOHC de alto rendimiento
-                  </span>
-                </div>
-
-                <div className="bg-surface-container p-4 rounded-lg flex flex-col gap-1 border border-surface-container-high/50">
-                  <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">
-                    Potencia Máxima
-                  </span>
-                  <span className="font-spec-data text-spec-data text-primary">{bike.power}</span>
-                  <span className="font-body-sm text-body-sm text-on-surface-variant">
-                    Par motor pico: {bike.torque}
-                  </span>
-                </div>
-
-                <div className="bg-surface-container p-4 rounded-lg flex flex-col gap-1 border border-surface-container-high/50">
-                  <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">
-                    Sistema de Frenado
-                  </span>
-                  <span className="font-spec-data text-spec-data text-on-surface">{bike.brakes}</span>
-                  <span className="font-body-sm text-body-sm text-on-surface-variant">
-                    ABS Cornering con unidad inercial multieje
-                  </span>
-                </div>
-
-                <div className="bg-surface-container p-4 rounded-lg flex flex-col gap-1 border border-surface-container-high/50">
-                  <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">
-                    Peso en Orden de Marcha
-                  </span>
-                  <span className="font-spec-data text-spec-data text-on-surface">{bike.weight}</span>
-                  <span className="font-body-sm text-body-sm text-on-surface-variant">
-                    Distribución de masas centrada
-                  </span>
-                </div>
-
-                <div className="bg-surface-container p-4 rounded-lg flex flex-col gap-1 sm:col-span-2 border border-surface-container-high/50">
-                  <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">
-                    Transmisión &amp; Embrague
-                  </span>
-                  <span className="font-spec-data text-spec-data text-on-surface">
-                    {bike.transmission}
-                  </span>
-                  <span className="font-body-sm text-body-sm text-on-surface-variant">
-                    Relación de marchas optimizada para aceleración inmediata y crucero en autopista
-                  </span>
-                </div>
+              <div className="space-y-6 pt-4">
+                {groupedCharacteristics.map((group) => (
+                  <section key={group.categoryId}>
+                    <h3 className="mb-3 border-l-4 border-primary pl-3 text-sm font-bold uppercase tracking-widest text-on-surface">
+                      {group.categoryName}
+                    </h3>
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      {group.items.map((characteristic) => (
+                        <div key={characteristic.id} className="bg-surface-container p-4 rounded-lg flex flex-col gap-1 border border-surface-container-high/50">
+                          <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">
+                            {characteristic.name}
+                          </span>
+                          <span className="font-spec-data text-spec-data text-on-surface">
+                            {characteristic.value}
+                            {characteristic.unit ? ` ${characteristic.unit}` : ''}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                ))}
+                {groupedCharacteristics.length === 0 && (
+                  <p className="rounded-xl border border-dashed border-outline-variant p-6 text-center text-sm text-on-surface-variant">
+                    No hay características técnicas registradas para esta moto.
+                  </p>
+                )}
               </div>
             </div>
 
-            <div className="mt-6 pt-4 bg-surface-container/60 p-4 rounded-lg flex flex-wrap items-center justify-between gap-4 font-body-sm text-body-sm border border-surface-container-high">
-              <div className="flex items-center gap-2 text-on-surface">
-                <Icon name="eco" size={16} className="text-tertiary" />
-                <span>
-                  Normativa de Emisiones: <strong className="text-tertiary">{bike.emissions}</strong>
-                </span>
-              </div>
-              <div className="flex items-center gap-2 text-on-surface">
-                <Icon name="local_gas_station" size={16} className="text-primary" />
-                <span>
-                  Consumo Promedio: <strong>{bike.consumption}</strong>
-                </span>
-              </div>
-            </div>
           </div>
 
-          {/* SP Model Specific Exclusive Features (5 Cols) */}
-          <div className="lg:col-span-5 bg-surface-container border border-surface-container-high p-6 sm:p-8 rounded-xl shadow-lg flex flex-col justify-between">
+          {bike.extras.length > 0 && <div className="lg:col-span-5 bg-surface-container border border-surface-container-high p-6 sm:p-8 rounded-xl shadow-lg flex flex-col justify-between">
             <div className="space-y-4">
               <div className="flex items-center gap-2.5 pb-2 border-b border-surface-container-high">
                 <Icon name="stars" size={24} className="text-tertiary" />
@@ -461,14 +376,7 @@ export const VehicleDetailPage: React.FC<VehicleDetailPageProps> = ({
                 ))}
               </ul>
             </div>
-
-            <div className="mt-6 p-3.5 bg-primary/10 border border-primary/30 rounded-lg flex items-center gap-3">
-              <Icon name="smart_toy" size={20} className="text-primary" />
-              <span className="font-body-sm text-body-sm text-primary font-semibold">
-                Homologación oficial Apex Dealership Network garantizada con ficha técnica RUNT.
-              </span>
-            </div>
-          </div>
+          </div>}
         </div>
       </section>
     </div>
