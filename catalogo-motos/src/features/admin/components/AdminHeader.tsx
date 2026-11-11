@@ -28,7 +28,7 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
         </span>
         <span className="hidden sm:inline text-outline">/</span>
         <span className="font-label-sm text-label-sm uppercase text-primary font-bold truncate">
-          Apex Motor Group S.L.
+          MotoSync
         </span>
       </div>
 

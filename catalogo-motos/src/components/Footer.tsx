@@ -14,12 +14,12 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <img
-                alt="Apex Moto Logo"
+                alt="Logo"
                 className="h-7 w-auto object-contain"
                 src="https://lh3.googleusercontent.com/aida/AEtjO1VAlH_yQvgdRynQYMOqInryGz1B7iboJ9UDnaF6jjb3kzysZlZSAUsEpRv5vV5UgJgIkWorLe4y9V6zCAEZ24JmVVC9KYSHR8qVbEwo1BUW-4ElnXOYq_8REF_m2lG_wNGbrHMAdLboKJ0VJC6MwLSVPPFNRFw6W_VbBWfSVM_d4m3H5XsU8sQgadKFF4oZoB0x2FmRMLXKID0H6kvTa-aprTpuLsUR9FcK0Qk3-rNvg0LemyoWg9COkA"
               />
               <span className="font-headline-sm text-headline-sm text-on-surface tracking-tight uppercase">
-                Apex Moto
+                MotoSync
               </span>
             </div>
             <p className="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
@@ -29,13 +29,13 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
             <div className="flex items-center gap-2 pt-2">
               <Icon name="verified_user" size={18} className="text-tertiary" />
               <span className="font-label-sm text-label-sm text-on-surface uppercase tracking-wider">
-                Garantía Oficial 3 Años / Sin Límite Km
+                Garantía Oficial de Fábrica
               </span>
             </div>
           </div>
 
           {/* Column 2: Allied Brands */}
-          <div className="space-y-3">
+          {/* <div className="space-y-3">
             <span className="font-label-md text-label-md text-on-surface uppercase tracking-wider block">
               Marcas Aliadas Certificadas
             </span>
@@ -59,21 +59,21 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
                 KTM Factory
               </span>
             </div>
-          </div>
+          </div> */}
 
           {/* Column 3: Showroom Schedule */}
           <div className="space-y-3">
             <span className="font-label-md text-label-md text-on-surface uppercase tracking-wider block">
-              Horario de Showroom
+              Horario de Atención
             </span>
             <ul className="space-y-2 font-body-sm text-body-sm">
               <li className="flex justify-between items-center bg-surface-container-low px-3 py-2 rounded-lg border border-surface-container-high/50">
                 <span>Lunes - Viernes:</span>
-                <span className="text-on-surface font-bold">09:00 - 20:00 hrs</span>
+                <span className="text-on-surface font-bold">09:00 a.m - 6:00 p.m</span>
               </li>
               <li className="flex justify-between items-center bg-surface-container-low px-3 py-2 rounded-lg border border-surface-container-high/50">
-                <span>Atención comercial:</span>
-                <span className="text-on-surface font-bold">10:00 - 18:00 hrs</span>
+                <span>Atención en línea:</span>
+                <span className="text-on-surface font-bold">10:00 a.m - 6:00 p.m</span>
               </li>
               <li className="flex justify-between items-center bg-surface-container-low px-3 py-2 rounded-lg border border-surface-container-high/50">
                 <span>Domingos:</span>
@@ -85,36 +85,30 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
           {/* Column 4: HQ & Workshop */}
           <div className="space-y-3">
             <span className="font-label-md text-label-md text-on-surface uppercase tracking-wider block">
-              Sede Central &amp; Taller
+              Sede Central
             </span>
             <p className="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
-              Av. del Motor 1420, Distrito Tecnológico, Pabellón Apex Trackside.
+             Carrera 49 #50-92 Junín con la playa
             </p>
             <div className="pt-2 space-y-1.5">
               <div className="flex items-center gap-2">
                 <Icon name="phone" size={16} className="text-primary" />
-                <span className="font-body-sm text-body-sm text-on-surface">+34 900 848 200</span>
+                <span className="font-body-sm text-body-sm text-on-surface">+57 3013872774</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Icon name="mail" size={16} className="text-primary" />
-                <span className="font-body-sm text-body-sm text-on-surface">ventas@apex-moto.com</span>
-              </div>
+              
             </div>
           </div>
         </div>
 
         {/* Bottom Credits */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 font-body-sm text-body-sm text-on-surface-variant">
-          <p>© 2025 Apex Moto Dealership Network. Todos los derechos reservados.</p>
+          <p>© 2025 MotoSync Dealership Network. Todos los derechos reservados.</p>
           <div className="flex items-center gap-6 font-label-sm text-label-sm">
             <a className="hover:text-primary transition-colors" href="#terms">
               Términos de Servicio
             </a>
             <a className="hover:text-primary transition-colors" href="#privacy">
               Política de Privacidad
-            </a>
-            <a className="hover:text-primary transition-colors" href="#homologation">
-              Homologación Técnica
             </a>
             <button type="button" className="hover:text-primary transition-colors" onClick={onOpenAdmin}>
               Acceso administrativo

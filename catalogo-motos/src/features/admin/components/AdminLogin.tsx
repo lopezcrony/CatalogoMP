@@ -75,7 +75,7 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({
 
         {/* Brand & Hub Header */}
         <div className="flex flex-col items-center text-center">
-          {/* Logo Apex Moto Custom Vector Mark */}
+          {/* Logo Moto Custom Vector Mark */}
           <div className="flex items-center gap-3 mb-2 group">
             <div className="relative flex items-center justify-center w-12 h-12 bg-surface-container-high rounded-lg shadow-xl shadow-black/10 border border-outline-variant">
               <svg className="w-8 h-8 text-primary" fill="none" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
@@ -121,7 +121,7 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="gerencia@apexmotogroup.com"
+                  placeholder="correo@motos.com"
                   className="w-full h-11 bg-surface-container-lowest text-on-surface font-body-md text-body-md rounded-lg pl-11 pr-4 border border-outline-variant focus:outline-none focus:border-primary text-ellipsis placeholder:text-outline/60 transition-colors"
                 />
               </div>

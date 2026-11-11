@@ -34,7 +34,7 @@ export default function App() {
 
   // Admin Add/Edit Modal
   const [isAdminSidebarOpen, setIsAdminSidebarOpen] = useState(false);
-  const [isCreditInfoOpen, setIsCreditInfoOpen] = useState(false);
+  const [isCreditInfoOpen, setIsCreditInfoOpen] = useState(true);
   const [isMotorcycleModalOpen, setIsMotorcycleModalOpen] = useState(false);
   const [bikeToEdit, setBikeToEdit] = useState<Motorcycle | null>(null);
   const [reviewEditId, setReviewEditId] = useState<string | null>(null);
@@ -49,7 +49,7 @@ export default function App() {
   const handleAdminLogin = async (email: string, password: string) => {
     await auth.signIn(email, password);
     navigation.loginAdmin();
-    showToast('Sesión Iniciada', 'Bienvenido a la Sala de Control Operativo Apex Moto.');
+    showToast('Sesión Iniciada', 'Bienvenido a la Sala de Control Operativo.');
   };
 
   const handleAdminLogout = async () => {

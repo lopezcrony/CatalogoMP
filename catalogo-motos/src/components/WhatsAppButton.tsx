@@ -6,8 +6,8 @@ interface WhatsAppButtonProps {
 
 export const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({ bikeName }) => {
   const message = bikeName
-    ? `Hola Apex Moto, estoy interesado en recibir información técnica y disponibilidad sobre la ${bikeName}`
-    : 'Hola Apex Moto, deseo consultar sobre el catálogo de motocicletas y disponibilidad en showroom';
+    ? `Hola, estoy interesado en recibir información técnica y disponibilidad sobre la ${bikeName}`
+    : 'Hola, deseo consultar sobre el catálogo de motocicletas y disponibilidad';
 
   const href = `https://wa.me/573013872774?text=${encodeURIComponent(message)}`;
 

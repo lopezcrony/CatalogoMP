@@ -112,18 +112,12 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
         {/* Profile Card */}
         <div className="bg-surface-container-low border border-surface-container-high p-3 rounded-xl flex items-center justify-between">
           <div className="flex items-center gap-3 truncate">
-            <img
-              alt="Profile"
-              className="w-9 h-9 rounded-full object-cover ring-1 ring-outline"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuhRbKmtfTdrEb2wS1y_uLz01RjzNCeey9WVV3mXg2NQ6U4bIIU_hX2kMUayFLN8BsekaicYYu0W2xjy0FVz-Pqxd5nKsaO3_GJvJuMQG9htqxo78vl9mdbzYOYihkyzUfOCWxX7Z3xTccxSwompvfezqeNmSNHMNZjoX6BZ-1co1MKDc_LIzY7p75jiOYR8DJ-UY1K1voxM511i6wQYNtZmuqT4nVEaSkIYj9t-Nz0cZ5Ufb_6zzc"
-            />
+            
             <div className="flex flex-col truncate">
               <span className="font-label-md text-label-md text-on-surface truncate">
                 Gerencia de Ventas
               </span>
-              <span className="font-label-sm text-label-sm text-tertiary uppercase">
-                En Línea
-              </span>
+             
             </div>
           </div>
           <button
@@ -135,14 +129,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
           </button>
         </div>
 
-        {/* Back to Public Showroom Button */}
-        <button
-          onClick={onBackToShowroom}
-          className="flex items-center justify-center gap-2 bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-sm text-label-sm uppercase py-2.5 rounded-lg transition-colors border border-outline cursor-pointer"
-        >
-          <Icon name="arrow_back" size={16} />
-          Ver Tienda Pública
-        </button>
+        
       </div>
       </aside>
     </>

@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import "../index.css";
 
 export const metadata: Metadata = {
-  title: "Apex Moto - Portal Concesionario & Catálogo",
+  title: "MotoSync - Portal Concesionario & Catálogo",
   description:
     "Plataforma integral de gestión de concesionario, homologación técnica y vitrina digital de motocicletas.",
 };
